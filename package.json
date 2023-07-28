@@ -1,0 +1,59 @@
+{
+  "name": "e-commerce-store-builder",
+  "version": "1.0.0",
+  "description": "Backend for E-Commerce Store Builder with CRUD operations for products and blog, registration and authentication, product sorting, user dashboard, shopping cart, product and blog article search, purchase management, and feedback handling.",
+  "main": "app.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm run build:ts && tsc -p test/tsconfig.json && tap --ts \"test/**/*.test.ts\"",
+    "start": "npm run build:ts && fastify start -l info dist/app.js",
+    "build:ts": "tsc",
+    "watch:ts": "tsc -w",
+    "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
+    "dev:start": "fastify start --ignore-watch=.ts$ -w -l info -P dist/app.js"
+  },
+  "keywords": [
+    "e-commerce",
+    "store builder",
+    "backend",
+    "CRUD operations",
+    "product management",
+    "blog management",
+    "registration",
+    "authentication",
+    "product sorting",
+    "user dashboard",
+    "shopping cart",
+    "product search",
+    "blog article search",
+    "purchase management",
+    "feedback management"
+  ],
+  "author": "Oleh Husak (https://github.com/oleh19127)",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/autoload": "^5.0.0",
+    "@fastify/cors": "^8.3.0",
+    "@fastify/sensible": "^5.0.0",
+    "@fastify/swagger": "^8.8.0",
+    "@fastify/swagger-ui": "^1.9.3",
+    "fastify": "^4.0.0",
+    "fastify-cli": "^5.7.1",
+    "fastify-plugin": "^4.0.0",
+    "pg": "^8.11.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.17"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/tap": "^15.0.5",
+    "concurrently": "^7.0.0",
+    "fastify-tsconfig": "^1.0.1",
+    "prettier": "^3.0.0",
+    "tap": "^16.1.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+}
