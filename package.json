@@ -34,7 +34,7 @@
   "author": "Oleh Husak (https://github.com/oleh19127)",
   "license": "ISC",
   "engines": {
-    "node": "18.17.0"
+    "node": "18.x"
   },
   "dependencies": {
     "@fastify/autoload": "^5.0.0",
