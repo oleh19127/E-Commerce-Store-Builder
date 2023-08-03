@@ -12,6 +12,6 @@ export async function adminMiddleware(
   const roles = await roleRepository.find({ where: { userId } });
   const isAdmin = roles.some((role) => role.name === "ADMIN");
   if (!isAdmin) {
-    return reply.send("Unauthorized");
+    return reply.send("You is not admin!!!");
   }
 }
