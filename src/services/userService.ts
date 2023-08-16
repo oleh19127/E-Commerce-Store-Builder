@@ -1,8 +1,23 @@
 import { AppDataSource } from "../db/data-source";
 import { User } from "../db/entity/User";
 import { Role } from "../db/entity/Role";
-
+import { hash, compare } from "bcrypt";
+import { sign, verify } from "jsonwebtoken";
 class UserService {
+  private async generateAccessToken(
+    id: number,
+    email: string,
+    roles: Role[],
+    password: string,
+  ) {
+    const payload = {
+      id,
+      email,
+      roles,
+      password,
+    };
+    return sign(payload, "some secret key", { expiresIn: "2h" });
+  }
   async getAllUsers() {
     const userRepository = AppDataSource.getRepository(User);
     return await userRepository.findAndCount({ relations: ["roles"] });
@@ -11,20 +26,42 @@ class UserService {
   async createUser(email: string, password: string) {
     const userRepository = AppDataSource.getRepository(User);
     const roleRepository = AppDataSource.getRepository(Role);
+    const hashPassword = hash(password, 10);
     const user = new User();
     const role = new Role();
-    user.password = password;
+    user.password = await hashPassword;
     user.email = email;
     await userRepository.save(user);
     role.userId = user.id;
     await roleRepository.save(role);
     user.roles = await roleRepository.findBy({ userId: user.id });
-    return user;
+    return await this.generateAccessToken(
+      user.id,
+      user.email,
+      user.roles,
+      user.password,
+    );
   }
 
   async login(email: string, password: string) {
     const userRepository = AppDataSource.getRepository(User);
-    return await userRepository.findOneBy({ email, password });
+    const candidate = await userRepository.findOne({
+      relations: ["roles"],
+      where: { email },
+    });
+    if (candidate === null) {
+      return "User not found";
+    }
+    const validPassword = await compare(password, candidate.password);
+    if (!validPassword) {
+      return "Password wrong";
+    }
+    return await this.generateAccessToken(
+      candidate.id,
+      candidate.email,
+      candidate.roles,
+      candidate.password,
+    );
   }
 
   async update(email: string, password: string, id: number) {
@@ -50,6 +87,13 @@ class UserService {
     if (destroyedUser.affected === 0) {
       return "There is no such user to delete it!!!";
     }
+  }
+
+  async auth(token: string) {
+    if (!token) {
+      return "User is not authorized";
+    }
+    return verify(token, "some secret key");
   }
 }
 
