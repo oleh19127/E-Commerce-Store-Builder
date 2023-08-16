@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -26,5 +27,6 @@ export class User {
   updated_at: Date;
 
   @OneToMany(() => Role, (role) => role.user)
+  @JoinTable()
   roles: Role[];
 }

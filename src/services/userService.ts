@@ -5,7 +5,7 @@ import { Role } from "../db/entity/Role";
 class UserService {
   async getAllUsers() {
     const userRepository = AppDataSource.getRepository(User);
-    return await userRepository.findAndCount();
+    return await userRepository.findAndCount({ relations: ["roles"] });
   }
 
   async createUser(email: string, password: string) {
@@ -18,6 +18,7 @@ class UserService {
     await userRepository.save(user);
     role.userId = user.id;
     await roleRepository.save(role);
+    user.roles = await roleRepository.findBy({ userId: user.id });
     return user;
   }
 

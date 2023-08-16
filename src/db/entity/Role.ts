@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -26,5 +27,6 @@ export class Role {
   userId: number;
 
   @ManyToOne(() => User, (user) => user.roles)
+  @JoinTable()
   user: User;
 }
