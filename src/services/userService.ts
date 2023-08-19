@@ -3,6 +3,7 @@ import { User } from "../db/entity/User";
 import { Role } from "../db/entity/Role";
 import { hash, compare } from "bcrypt";
 import { sign, verify } from "jsonwebtoken";
+import { Cart } from "../db/entity/Cart";
 class UserService {
   private async generateAccessToken(
     id: number,
@@ -26,12 +27,16 @@ class UserService {
   async createUser(email: string, password: string) {
     const userRepository = AppDataSource.getRepository(User);
     const roleRepository = AppDataSource.getRepository(Role);
+    const cartRepository = AppDataSource.getRepository(Cart);
     const hashPassword = hash(password, 10);
     const user = new User();
     const role = new Role();
+    const cart = new Cart();
     user.password = await hashPassword;
     user.email = email;
     await userRepository.save(user);
+    cart.userId = user.id;
+    await cartRepository.save(cart);
     role.userId = user.id;
     await roleRepository.save(role);
     user.roles = await roleRepository.findBy({ userId: user.id });
