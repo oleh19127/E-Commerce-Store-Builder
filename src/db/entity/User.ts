@@ -4,10 +4,12 @@ import {
   Entity,
   JoinTable,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Role } from "./Role";
+import { Cart } from "./Cart";
 
 @Entity()
 export class User {
@@ -29,4 +31,7 @@ export class User {
   @OneToMany(() => Role, (role) => role.user)
   @JoinTable()
   roles: Role[];
+
+  @OneToOne(() => User, (user) => user.cart)
+  cart: Cart;
 }
