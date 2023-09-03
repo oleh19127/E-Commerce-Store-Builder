@@ -84,7 +84,9 @@ class UserService {
   async delete(id: number) {
     const userRepository = AppDataSource.getRepository(User);
     const roleRepository = AppDataSource.getRepository(Role);
+    const cartRepository = AppDataSource.getRepository(Cart);
     await roleRepository.delete({ userId: id });
+    await cartRepository.delete({ userId: id });
     const destroyedUser = await userRepository.delete(id);
     if (destroyedUser.affected === 1) {
       return "User successfully deleted!!!";
