@@ -4,6 +4,7 @@ import { Role } from "../db/entity/Role";
 import { hash, compare } from "bcrypt";
 import { sign, verify } from "jsonwebtoken";
 import { Cart } from "../db/entity/Cart";
+import { CartProduct } from "../db/entity/CartProduct";
 class UserService {
   private async generateAccessToken(
     id: number,
@@ -28,15 +29,19 @@ class UserService {
     const userRepository = AppDataSource.getRepository(User);
     const roleRepository = AppDataSource.getRepository(Role);
     const cartRepository = AppDataSource.getRepository(Cart);
+    const cartProductRepository = AppDataSource.getRepository(CartProduct);
     const hashPassword = hash(password, 10);
     const user = new User();
     const role = new Role();
     const cart = new Cart();
+    const cartProduct = new CartProduct();
     user.password = await hashPassword;
     user.email = email;
     await userRepository.save(user);
     cart.userId = user.id;
     await cartRepository.save(cart);
+    cartProduct.cartId = cart.id;
+    await cartProductRepository.save(cartProduct);
     role.userId = user.id;
     await roleRepository.save(role);
     user.roles = await roleRepository.findBy({ userId: user.id });
@@ -85,8 +90,10 @@ class UserService {
     const userRepository = AppDataSource.getRepository(User);
     const roleRepository = AppDataSource.getRepository(Role);
     const cartRepository = AppDataSource.getRepository(Cart);
+    const cartProductRepository = AppDataSource.getRepository(CartProduct);
     await roleRepository.delete({ userId: id });
     await cartRepository.delete({ userId: id });
+    await cartProductRepository.delete({ cartId: id });
     const destroyedUser = await userRepository.delete(id);
     if (destroyedUser.affected === 1) {
       return "User successfully deleted!!!";
