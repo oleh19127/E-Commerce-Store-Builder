@@ -3,17 +3,26 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { CartProduct } from "./CartProduct";
+import { ProductColor } from "./ProductColor";
+import { ProductSize } from "./ProductSize";
+import { ProductTag } from "./ProductTag";
+import { ProductStyle } from "./ProductStyle";
+import { ProductWeight } from "./ProductWeight";
+import { ProductImage } from "./ProductImage";
+import { ProductCategory } from "./ProductCategory";
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ default: 0 })
   cartProductId: number;
 
   @Column()
@@ -36,4 +45,25 @@ export class Product {
 
   @ManyToOne(() => Product, (product) => product.cartProduct)
   cartProduct: CartProduct;
+
+  @OneToMany(() => Product, (product) => product.productColors)
+  productColors: ProductColor[];
+
+  @OneToMany(() => Product, (product) => product.productSizes)
+  productSizes: ProductSize[];
+
+  @OneToMany(() => Product, (product) => product.productTags)
+  productTags: ProductTag[];
+
+  @OneToMany(() => Product, (product) => product.productStyles)
+  productStyles: ProductStyle[];
+
+  @OneToOne(() => Product, (product) => product.productWeight)
+  productWeight: ProductWeight;
+
+  @OneToMany(() => Product, (product) => product.productImages)
+  productImages: ProductImage[];
+
+  @OneToMany(() => Product, (product) => product.productCategories)
+  productCategories: ProductCategory[];
 }
