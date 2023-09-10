@@ -10,6 +10,7 @@ import { ProductSize } from "./entity/ProductSize";
 import { ProductStyle } from "./entity/ProductStyle";
 import { ProductTag } from "./entity/ProductTag";
 import { ProductWeight } from "./entity/ProductWeight";
+import { Product } from "./entity/Product";
 
 const port = process.env.DATA_BASE_PORT
   ? parseInt(process.env.DATA_BASE_PORT)
@@ -37,6 +38,7 @@ export const AppDataSource = new DataSource({
     ProductStyle,
     ProductTag,
     ProductWeight,
+    Product,
   ],
   subscribers: [],
   migrations: [],
