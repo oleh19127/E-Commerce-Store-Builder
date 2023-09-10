@@ -5,4 +5,5 @@ export interface IProduct {
   subtitle: string;
   price: number;
   sku: number;
+  userId: number;
 }
