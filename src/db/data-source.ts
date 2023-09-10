@@ -2,6 +2,15 @@ import { DataSource } from "typeorm";
 import { User } from "./entity/User";
 import { Role } from "./entity/Role";
 import { Cart } from "./entity/Cart";
+import { CartProduct } from "./entity/CartProduct";
+import { ProductCategory } from "./entity/ProductCategory";
+import { ProductColor } from "./entity/ProductColor";
+import { ProductImage } from "./entity/ProductImage";
+import { ProductSize } from "./entity/ProductSize";
+import { ProductStyle } from "./entity/ProductStyle";
+import { ProductTag } from "./entity/ProductTag";
+import { ProductWeight } from "./entity/ProductWeight";
+import { Product } from "./entity/Product";
 
 const port = process.env.DATA_BASE_PORT
   ? parseInt(process.env.DATA_BASE_PORT)
@@ -16,9 +25,22 @@ export const AppDataSource = new DataSource({
   // database: process.env.DATA_BASE_NAME, // for local only
   synchronize: true,
   ssl: true, // external only
+  url: process.env.DATA_BASE_URL, // external only
   logging: true,
-  entities: [User, Role, Cart],
+  entities: [
+    User,
+    Role,
+    Cart,
+    CartProduct,
+    ProductCategory,
+    ProductColor,
+    ProductImage,
+    ProductSize,
+    ProductStyle,
+    ProductTag,
+    ProductWeight,
+    Product,
+  ],
   subscribers: [],
   migrations: [],
-  url: process.env.DATA_BASE_URL, // external only
 });
