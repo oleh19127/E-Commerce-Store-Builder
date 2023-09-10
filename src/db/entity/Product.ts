@@ -16,14 +16,15 @@ import { ProductStyle } from "./ProductStyle";
 import { ProductWeight } from "./ProductWeight";
 import { ProductImage } from "./ProductImage";
 import { ProductCategory } from "./ProductCategory";
+import { User } from "./User";
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: 0 })
-  cartProductId: number;
+  @Column()
+  userId: number;
 
   @Column()
   title: string;
@@ -42,6 +43,9 @@ export class Product {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne(() => Product, (product) => product.user)
+  user: User;
 
   @ManyToOne(() => Product, (product) => product.cartProduct)
   cartProduct: CartProduct;
