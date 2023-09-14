@@ -41,13 +41,15 @@ class ProductController {
   async update(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { productId } = request.params as IProduct;
-      const { sku, price, subtitle, title } = request.body as IProduct;
+      const { sku, price, subtitle, title, cartProductId } =
+        request.body as IProduct;
       const result = await productService.update(
         productId,
         sku,
         price,
         subtitle,
         title,
+        cartProductId,
       );
       return reply.send(result);
     } catch (e) {
