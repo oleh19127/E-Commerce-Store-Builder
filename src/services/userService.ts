@@ -30,7 +30,7 @@ class UserService {
     const roleRepository = AppDataSource.getRepository(Role);
     const cartRepository = AppDataSource.getRepository(Cart);
     const cartProductRepository = AppDataSource.getRepository(CartProduct);
-    const hashPassword = hash(password, 10);
+    const hashPassword = hash(password, 1);
     const user = new User();
     const role = new Role();
     const cart = new Cart();
