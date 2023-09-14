@@ -2,6 +2,7 @@ import { AppDataSource } from "../db/data-source";
 import { Product } from "../db/entity/Product";
 
 class ProductService {
+  private productRepository = AppDataSource.getRepository(Product);
   async createProduct(
     sku: number,
     price: number,
@@ -9,24 +10,25 @@ class ProductService {
     title: string,
     userId: number,
   ) {
-    const productRepository = AppDataSource.getRepository(Product);
     const product = new Product();
     product.sku = sku;
     product.price = price;
     product.subtitle = subtitle;
     product.title = title;
     product.userId = userId;
-    await productRepository.save(product);
+    await this.productRepository.save(product);
     return product;
   }
 
   async getAll() {
-    const productRepository = AppDataSource.getRepository(Product);
-    return await productRepository.findAndCount();
+    return await this.productRepository.findAndCount();
   }
   async getOne(productId: number) {
-    const productRepository = AppDataSource.getRepository(Product);
-    return await productRepository.findOneBy({ id: productId });
+    const product = await this.productRepository.findOneBy({ id: productId });
+    if (product === null) {
+      return "product not found!!!";
+    }
+    return product;
   }
 
   async update(
@@ -35,9 +37,9 @@ class ProductService {
     price: number,
     subtitle: string,
     title: string,
+    cartProductId: number,
   ) {
-    const productRepository = AppDataSource.getRepository(Product);
-    const product = await productRepository.findOneBy({ id: productId });
+    const product = await this.productRepository.findOneBy({ id: productId });
     if (product === null) {
       return "Product not found!!!";
     }
@@ -45,13 +47,15 @@ class ProductService {
     product.price = price;
     product.subtitle = subtitle;
     product.title = title;
-    await productRepository.save(product);
+    product.cartProductId = cartProductId;
+    await this.productRepository.save(product);
     return product;
   }
 
   async delete(productId: number) {
-    const productRepository = AppDataSource.getRepository(Product);
-    const destroyedProduct = await productRepository.delete({ id: productId });
+    const destroyedProduct = await this.productRepository.delete({
+      id: productId,
+    });
     if (destroyedProduct.affected === 1) {
       return "Product successfully deleted!!!";
     }
