@@ -26,6 +26,9 @@ export class Product {
   @Column()
   userId: number;
 
+  @Column({ nullable: true })
+  cartProductId: number;
+
   @Column()
   title: string;
 

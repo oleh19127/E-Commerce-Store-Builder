@@ -3,36 +3,36 @@ import { User } from "../db/entity/User";
 import { Role } from "../db/entity/Role";
 
 class RoleService {
+  private roleRepository = AppDataSource.getRepository(Role);
+  private userRepository = AppDataSource.getRepository(User);
   async getAllRoles() {
-    const roleRepository = AppDataSource.getRepository(Role);
-    return await roleRepository.findAndCount();
+    return await this.roleRepository.findAndCount();
   }
   async createRole(userId: number, name: string) {
-    const userRepository = AppDataSource.getRepository(User);
-    const roleRepository = AppDataSource.getRepository(Role);
-    const user = await userRepository.findOneBy({ id: userId });
+    const user = await this.userRepository.findOneBy({ id: userId });
     if (user === null) {
       return "User not found";
     }
     const role = new Role();
     role.name = name;
     role.userId = userId;
-    await roleRepository.save(role);
+    await this.roleRepository.save(role);
     return role;
   }
 
   async getAllUserRoles(userId: number) {
-    const roleRepository = AppDataSource.getRepository(Role);
-    return await roleRepository.findAndCountBy({ userId });
+    return await this.roleRepository.findAndCountBy({ userId });
   }
 
   async deleteRole(id: number) {
-    const roleRepository = AppDataSource.getRepository(Role);
-    const role = await roleRepository.findOneBy({ id });
-    if (role?.name === "USER") {
+    const role = await this.roleRepository.findOneBy({ id });
+    if (role === null) {
+      return "Role not found";
+    }
+    if (role.name === "USER") {
       return "Role 'USER' cant delete!!!";
     }
-    const destroyedRole = await roleRepository.delete(id);
+    const destroyedRole = await this.roleRepository.delete(id);
     if (destroyedRole.affected === 1) {
       return "Role successfully deleted!!!";
     }
@@ -41,19 +41,24 @@ class RoleService {
     }
   }
   async getOneRole(id: number) {
-    const roleRepository = AppDataSource.getRepository(Role);
-    return await roleRepository.findOneBy({ id });
+    const role = await this.roleRepository.findOneBy({ id });
+    if (role === null) {
+      return "Role not found";
+    }
+    return role;
   }
 
   async updateRole(name: string, id: number) {
-    const roleRepository = AppDataSource.getRepository(Role);
-    const role = await roleRepository.findOneBy({ id });
-    if (role?.name === "USER") {
+    const role = await this.roleRepository.findOneBy({ id });
+    if (role === null) {
+      return "Role not found";
+    }
+    if (role.name === "USER") {
       return "Role 'USER' cant update!!!";
     }
     if (role && name) {
       role.name = name;
-      await roleRepository.save(role);
+      await this.roleRepository.save(role);
     }
     return role;
   }

@@ -6,6 +6,10 @@ import { sign, verify } from "jsonwebtoken";
 import { Cart } from "../db/entity/Cart";
 import { CartProduct } from "../db/entity/CartProduct";
 class UserService {
+  private userRepository = AppDataSource.getRepository(User);
+  private roleRepository = AppDataSource.getRepository(Role);
+  private cartRepository = AppDataSource.getRepository(Cart);
+  private cartProductRepository = AppDataSource.getRepository(CartProduct);
   private async generateAccessToken(
     id: number,
     email: string,
@@ -21,30 +25,25 @@ class UserService {
     return sign(payload, "some secret key", { expiresIn: "2h" });
   }
   async getAllUsers() {
-    const userRepository = AppDataSource.getRepository(User);
-    return await userRepository.findAndCount({ relations: ["roles"] });
+    return await this.userRepository.findAndCount({ relations: ["roles"] });
   }
 
   async createUser(email: string, password: string) {
-    const userRepository = AppDataSource.getRepository(User);
-    const roleRepository = AppDataSource.getRepository(Role);
-    const cartRepository = AppDataSource.getRepository(Cart);
-    const cartProductRepository = AppDataSource.getRepository(CartProduct);
-    const hashPassword = hash(password, 10);
+    const hashPassword = hash(password, 1);
     const user = new User();
     const role = new Role();
     const cart = new Cart();
     const cartProduct = new CartProduct();
     user.password = await hashPassword;
     user.email = email;
-    await userRepository.save(user);
+    await this.userRepository.save(user);
     cart.userId = user.id;
-    await cartRepository.save(cart);
+    await this.cartRepository.save(cart);
     cartProduct.cartId = cart.id;
-    await cartProductRepository.save(cartProduct);
+    await this.cartProductRepository.save(cartProduct);
     role.userId = user.id;
-    await roleRepository.save(role);
-    user.roles = await roleRepository.findBy({ userId: user.id });
+    await this.roleRepository.save(role);
+    user.roles = await this.roleRepository.findBy({ userId: user.id });
     return await this.generateAccessToken(
       user.id,
       user.email,
@@ -54,8 +53,7 @@ class UserService {
   }
 
   async login(email: string, password: string) {
-    const userRepository = AppDataSource.getRepository(User);
-    const candidate = await userRepository.findOne({
+    const candidate = await this.userRepository.findOne({
       relations: ["roles"],
       where: { email },
     });
@@ -75,26 +73,21 @@ class UserService {
   }
 
   async update(email: string, password: string, id: number) {
-    const userRepository = AppDataSource.getRepository(User);
-    const foundedUser = await userRepository.findOneBy({ id });
+    const foundedUser = await this.userRepository.findOneBy({ id });
     if (foundedUser === null) {
       return "User not found";
     }
     foundedUser.email = email;
     foundedUser.password = password;
-    await userRepository.save(foundedUser);
+    await this.userRepository.save(foundedUser);
     return foundedUser;
   }
 
   async delete(id: number) {
-    const userRepository = AppDataSource.getRepository(User);
-    const roleRepository = AppDataSource.getRepository(Role);
-    const cartRepository = AppDataSource.getRepository(Cart);
-    const cartProductRepository = AppDataSource.getRepository(CartProduct);
-    await roleRepository.delete({ userId: id });
-    await cartRepository.delete({ userId: id });
-    await cartProductRepository.delete({ cartId: id });
-    const destroyedUser = await userRepository.delete(id);
+    await this.roleRepository.delete({ userId: id });
+    await this.cartRepository.delete({ userId: id });
+    await this.cartProductRepository.delete({ cartId: id });
+    const destroyedUser = await this.userRepository.delete(id);
     if (destroyedUser.affected === 1) {
       return "User successfully deleted!!!";
     }
