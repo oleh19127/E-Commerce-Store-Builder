@@ -24,6 +24,16 @@ class UserController {
     }
   }
 
+  async getOne(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { id } = request.params as IUser;
+      const result = await userService.getOne(id);
+      return reply.send(result);
+    } catch (e) {
+      return reply.send(e);
+    }
+  }
+
   async createUser(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { email, password } = request.body as IUser;
