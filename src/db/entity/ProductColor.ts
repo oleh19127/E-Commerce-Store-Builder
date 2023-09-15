@@ -9,8 +9,8 @@ export class ProductColor {
   @Column()
   productId: number;
 
-  @Column()
-  color: string;
+  @Column({ unique: true })
+  colorValue: string;
 
   @ManyToOne(() => ProductColor, (productColor) => productColor.product)
   product: Product;
