@@ -28,6 +28,14 @@ class UserService {
     return await this.userRepository.findAndCount({ relations: ["roles"] });
   }
 
+  async getOne(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (user === null) {
+      return "User not found";
+    }
+    return user;
+  }
+
   async createUser(email: string, password: string) {
     const hashPassword = hash(password, 1);
     const user = new User();
