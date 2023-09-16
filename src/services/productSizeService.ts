@@ -34,6 +34,14 @@ class ProductSizeService {
       return "There is no such size to delete it!!!";
     }
   }
+
+  async getOneProductSize(id: number) {
+    const size = await this.productSizeRepository.findOneBy({ id });
+    if (size === null) {
+      return "Size not found";
+    }
+    return size;
+  }
 }
 
 export const productSizeService = new ProductSizeService();

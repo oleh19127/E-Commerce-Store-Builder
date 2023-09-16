@@ -47,6 +47,16 @@ class ProductSizeController {
       return reply.send(e);
     }
   }
+
+  async getOneProductSize(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { id } = request.params as IProductSize;
+      const result = await productSizeService.getOneProductSize(id);
+      return reply.send(result);
+    } catch (e) {
+      return reply.send(e);
+    }
+  }
 }
 
 export const productSizeController = new ProductSizeController();
