@@ -10,7 +10,7 @@ export class ProductTag {
   productId: number;
 
   @Column()
-  tag: string;
+  tagName: string;
 
   @ManyToOne(() => ProductTag, (productTag) => productTag.product)
   product: Product;

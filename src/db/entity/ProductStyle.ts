@@ -10,7 +10,7 @@ export class ProductStyle {
   productId: number;
 
   @Column()
-  style: string;
+  styleName: string;
 
   @ManyToOne(() => ProductStyle, (productStyle) => productStyle.product)
   product: Product;
