@@ -12,9 +12,7 @@ class ProductColorService {
   }
 
   async getAllProductColors(productId: number) {
-    return await this.productColorRepository.findAndCount({
-      where: { productId },
-    });
+    return await this.productColorRepository.findAndCountBy({ productId });
   }
 
   async updateColor(id: number, colorValue: string) {
