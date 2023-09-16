@@ -10,7 +10,7 @@ export class ProductSize {
   productId: number;
 
   @Column()
-  size: string;
+  sizeName: string;
 
   @ManyToOne(() => ProductSize, (productSize) => productSize.product)
   product: Product;
