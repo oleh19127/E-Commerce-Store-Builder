@@ -1,5 +1,6 @@
 export interface IProductImage {
   id: number;
   productId: number;
-  image: string;
+  src: string;
+  thumb: string;
 }
