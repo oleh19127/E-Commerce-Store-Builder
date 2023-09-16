@@ -10,7 +10,7 @@ export class ProductCategory {
   productId: number;
 
   @Column()
-  category: string;
+  categoryName: string;
 
   @ManyToOne(
     () => ProductCategory,

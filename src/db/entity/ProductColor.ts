@@ -9,7 +9,7 @@ export class ProductColor {
   @Column()
   productId: number;
 
-  @Column({ unique: true })
+  @Column()
   colorValue: string;
 
   @ManyToOne(() => ProductColor, (productColor) => productColor.product)
