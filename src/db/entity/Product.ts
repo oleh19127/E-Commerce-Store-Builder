@@ -17,6 +17,7 @@ import { ProductWeight } from "./ProductWeight";
 import { ProductImage } from "./ProductImage";
 import { ProductCategory } from "./ProductCategory";
 import { User } from "./User";
+import { ProductDescription } from "./ProductDescription";
 
 @Entity()
 export class Product {
@@ -73,4 +74,7 @@ export class Product {
 
   @OneToMany(() => Product, (product) => product.productCategories)
   productCategories: ProductCategory[];
+
+  @OneToOne(() => Product, (product) => product.productDescription)
+  productDescription: ProductDescription;
 }
