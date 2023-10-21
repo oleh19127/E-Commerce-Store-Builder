@@ -7,10 +7,10 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
-import { Role } from "./Role";
-import { Cart } from "./Cart";
-import { Product } from "./Product";
+} from 'typeorm';
+import { Role } from './Role';
+import { Cart } from './Cart';
+import { Product } from './Product';
 
 @Entity()
 export class User {

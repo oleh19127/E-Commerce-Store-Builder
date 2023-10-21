@@ -7,17 +7,17 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
-import { CartProduct } from "./CartProduct";
-import { ProductColor } from "./ProductColor";
-import { ProductSize } from "./ProductSize";
-import { ProductTag } from "./ProductTag";
-import { ProductStyle } from "./ProductStyle";
-import { ProductWeight } from "./ProductWeight";
-import { ProductImage } from "./ProductImage";
-import { ProductCategory } from "./ProductCategory";
-import { User } from "./User";
-import { ProductDescription } from "./ProductDescription";
+} from 'typeorm';
+import { CartProduct } from './CartProduct';
+import { ProductColor } from './ProductColor';
+import { ProductSize } from './ProductSize';
+import { ProductTag } from './ProductTag';
+import { ProductStyle } from './ProductStyle';
+import { ProductWeight } from './ProductWeight';
+import { ProductImage } from './ProductImage';
+import { ProductCategory } from './ProductCategory';
+import { User } from './User';
+import { ProductDescription } from './ProductDescription';
 
 @Entity()
 export class Product {

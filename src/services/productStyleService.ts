@@ -1,5 +1,5 @@
-import { AppDataSource } from "../db/data-source";
-import { ProductStyle } from "../db/entity/ProductStyle";
+import { AppDataSource } from '../db/data-source';
+import { ProductStyle } from '../db/entity/ProductStyle';
 
 class ProductStyleService {
   private productStyleRepository = AppDataSource.getRepository(ProductStyle);
@@ -16,7 +16,7 @@ class ProductStyleService {
   async updateProductStyle(id: number, styleName: string) {
     const productStyle = await this.productStyleRepository.findOneBy({ id });
     if (productStyle === null) {
-      return "Product style not found";
+      return 'Product style not found';
     }
     productStyle.styleName = styleName;
     await this.productStyleRepository.save(productStyle);
@@ -25,10 +25,10 @@ class ProductStyleService {
   async deleteProductStyle(id: number) {
     const destroyedProductStyle = await this.productStyleRepository.delete(id);
     if (destroyedProductStyle.affected === 1) {
-      return "Product style successfully deleted!!!";
+      return 'Product style successfully deleted!!!';
     }
     if (destroyedProductStyle.affected === 0) {
-      return "There is no such product style to delete it!!!";
+      return 'There is no such product style to delete it!!!';
     }
   }
 }

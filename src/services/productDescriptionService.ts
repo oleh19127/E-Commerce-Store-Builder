@@ -1,5 +1,5 @@
-import { AppDataSource } from "../db/data-source";
-import { ProductDescription } from "../db/entity/ProductDescription";
+import { AppDataSource } from '../db/data-source';
+import { ProductDescription } from '../db/entity/ProductDescription';
 
 class ProductDescriptionService {
   private productDescriptionRepository =
@@ -22,7 +22,7 @@ class ProductDescriptionService {
     const productDescription =
       await this.productDescriptionRepository.findOneBy({ id });
     if (productDescription === null) {
-      return "Product description not found";
+      return 'Product description not found';
     }
     productDescription.text = text;
     await this.productDescriptionRepository.save(productDescription);
@@ -33,10 +33,10 @@ class ProductDescriptionService {
     const destroyedProductDescription =
       await this.productDescriptionRepository.delete(id);
     if (destroyedProductDescription.affected === 1) {
-      return "Product description successfully deleted!!!";
+      return 'Product description successfully deleted!!!';
     }
     if (destroyedProductDescription.affected === 0) {
-      return "There is no such product description to delete it!!!";
+      return 'There is no such product description to delete it!!!';
     }
   }
 }

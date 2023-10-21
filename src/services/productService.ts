@@ -1,5 +1,5 @@
-import { AppDataSource } from "../db/data-source";
-import { Product } from "../db/entity/Product";
+import { AppDataSource } from '../db/data-source';
+import { Product } from '../db/entity/Product';
 
 class ProductService {
   private productRepository = AppDataSource.getRepository(Product);
@@ -26,7 +26,7 @@ class ProductService {
   async getOne(productId: number) {
     const product = await this.productRepository.findOneBy({ id: productId });
     if (product === null) {
-      return "product not found!!!";
+      return 'product not found!!!';
     }
     return product;
   }
@@ -41,7 +41,7 @@ class ProductService {
   ) {
     const product = await this.productRepository.findOneBy({ id: productId });
     if (product === null) {
-      return "Product not found!!!";
+      return 'Product not found!!!';
     }
     product.sku = sku;
     product.price = price;
@@ -57,10 +57,10 @@ class ProductService {
       id: productId,
     });
     if (destroyedProduct.affected === 1) {
-      return "Product successfully deleted!!!";
+      return 'Product successfully deleted!!!';
     }
     if (destroyedProduct.affected === 0) {
-      return "There is no such product to delete it!!!";
+      return 'There is no such product to delete it!!!';
     }
   }
 }

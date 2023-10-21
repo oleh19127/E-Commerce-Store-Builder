@@ -1,10 +1,10 @@
-import { AppDataSource } from "../db/data-source";
-import { User } from "../db/entity/User";
-import { Role } from "../db/entity/Role";
-import { hash, compare } from "bcrypt";
-import { sign, verify } from "jsonwebtoken";
-import { Cart } from "../db/entity/Cart";
-import { CartProduct } from "../db/entity/CartProduct";
+import { AppDataSource } from '../db/data-source';
+import { User } from '../db/entity/User';
+import { Role } from '../db/entity/Role';
+import { hash, compare } from 'bcrypt';
+import { sign, verify } from 'jsonwebtoken';
+import { Cart } from '../db/entity/Cart';
+import { CartProduct } from '../db/entity/CartProduct';
 class UserService {
   private userRepository = AppDataSource.getRepository(User);
   private roleRepository = AppDataSource.getRepository(Role);
@@ -22,16 +22,16 @@ class UserService {
       roles,
       password,
     };
-    return sign(payload, "some secret key", { expiresIn: "2h" });
+    return sign(payload, 'some secret key', { expiresIn: '2h' });
   }
   async getAllUsers() {
-    return await this.userRepository.findAndCount({ relations: ["roles"] });
+    return await this.userRepository.findAndCount({ relations: ['roles'] });
   }
 
   async getOne(id: number) {
     const user = await this.userRepository.findOneBy({ id });
     if (user === null) {
-      return "User not found";
+      return 'User not found';
     }
     return user;
   }
@@ -62,15 +62,15 @@ class UserService {
 
   async login(email: string, password: string) {
     const candidate = await this.userRepository.findOne({
-      relations: ["roles"],
+      relations: ['roles'],
       where: { email },
     });
     if (candidate === null) {
-      return "User not found";
+      return 'User not found';
     }
     const validPassword = await compare(password, candidate.password);
     if (!validPassword) {
-      return "Password wrong";
+      return 'Password wrong';
     }
     return await this.generateAccessToken(
       candidate.id,
@@ -83,7 +83,7 @@ class UserService {
   async update(email: string, password: string, id: number) {
     const foundedUser = await this.userRepository.findOneBy({ id });
     if (foundedUser === null) {
-      return "User not found";
+      return 'User not found';
     }
     foundedUser.email = email;
     foundedUser.password = password;
@@ -97,18 +97,18 @@ class UserService {
     await this.cartProductRepository.delete({ cartId: id });
     const destroyedUser = await this.userRepository.delete(id);
     if (destroyedUser.affected === 1) {
-      return "User successfully deleted!!!";
+      return 'User successfully deleted!!!';
     }
     if (destroyedUser.affected === 0) {
-      return "There is no such user to delete it!!!";
+      return 'There is no such user to delete it!!!';
     }
   }
 
   async auth(token: string) {
     if (!token) {
-      return "User is not authorized";
+      return 'User is not authorized';
     }
-    return verify(token, "some secret key");
+    return verify(token, 'some secret key');
   }
 }
 

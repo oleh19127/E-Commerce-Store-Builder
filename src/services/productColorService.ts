@@ -1,5 +1,5 @@
-import { AppDataSource } from "../db/data-source";
-import { ProductColor } from "../db/entity/ProductColor";
+import { AppDataSource } from '../db/data-source';
+import { ProductColor } from '../db/entity/ProductColor';
 
 class ProductColorService {
   private productColorRepository = AppDataSource.getRepository(ProductColor);
@@ -18,7 +18,7 @@ class ProductColorService {
   async updateColor(id: number, colorValue: string) {
     const color = await this.productColorRepository.findOneBy({ id });
     if (color === null) {
-      return "Color not found!!!";
+      return 'Color not found!!!';
     }
     color.colorValue = colorValue;
     await this.productColorRepository.save(color);
@@ -28,10 +28,10 @@ class ProductColorService {
   async deleteColor(id: number) {
     const destroyedColor = await this.productColorRepository.delete(id);
     if (destroyedColor.affected === 1) {
-      return "Color successfully deleted!!!";
+      return 'Color successfully deleted!!!';
     }
     if (destroyedColor.affected === 0) {
-      return "There is no such color to delete it!!!";
+      return 'There is no such color to delete it!!!';
     }
   }
 }

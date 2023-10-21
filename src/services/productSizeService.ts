@@ -1,5 +1,5 @@
-import { AppDataSource } from "../db/data-source";
-import { ProductSize } from "../db/entity/ProductSize";
+import { AppDataSource } from '../db/data-source';
+import { ProductSize } from '../db/entity/ProductSize';
 
 class ProductSizeService {
   private productSizeRepository = AppDataSource.getRepository(ProductSize);
@@ -18,7 +18,7 @@ class ProductSizeService {
   async updateProductSize(productId: number, sizeName: string) {
     const size = await this.productSizeRepository.findOneBy({ productId });
     if (size === null) {
-      return "Size not found";
+      return 'Size not found';
     }
     size.sizeName = sizeName;
     await this.productSizeRepository.save(size);
@@ -28,17 +28,17 @@ class ProductSizeService {
   async deleteProductSize(productId: number) {
     const destroyedSize = await this.productSizeRepository.delete(productId);
     if (destroyedSize.affected === 1) {
-      return "Size successfully deleted!!!";
+      return 'Size successfully deleted!!!';
     }
     if (destroyedSize.affected === 0) {
-      return "There is no such size to delete it!!!";
+      return 'There is no such size to delete it!!!';
     }
   }
 
   async getOneProductSize(id: number) {
     const size = await this.productSizeRepository.findOneBy({ id });
     if (size === null) {
-      return "Size not found";
+      return 'Size not found';
     }
     return size;
   }

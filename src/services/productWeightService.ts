@@ -1,5 +1,5 @@
-import { AppDataSource } from "../db/data-source";
-import { ProductWeight } from "../db/entity/ProductWeight";
+import { AppDataSource } from '../db/data-source';
+import { ProductWeight } from '../db/entity/ProductWeight';
 
 class ProductWeightService {
   private productWeightRepository = AppDataSource.getRepository(ProductWeight);
@@ -19,7 +19,7 @@ class ProductWeightService {
   async updateWeight(id: number, kg: number, lb: number) {
     const productWeight = await this.productWeightRepository.findOneBy({ id });
     if (productWeight === null) {
-      return "Weight not found";
+      return 'Weight not found';
     }
     productWeight.kg = kg;
     productWeight.lb = lb;
@@ -30,10 +30,10 @@ class ProductWeightService {
   async deleteWeight(id: number) {
     const destroyedWeight = await this.productWeightRepository.delete(id);
     if (destroyedWeight.affected === 1) {
-      return "Weight successfully deleted!!!";
+      return 'Weight successfully deleted!!!';
     }
     if (destroyedWeight.affected === 0) {
-      return "There is no such weight to delete it!!!";
+      return 'There is no such weight to delete it!!!';
     }
   }
 }

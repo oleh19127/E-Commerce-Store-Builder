@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { ProductDescription } from "./ProductDescription";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductDescription } from './ProductDescription';
 
 @Entity()
 export class ProductDescriptionInformation {

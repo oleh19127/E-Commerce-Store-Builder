@@ -1,6 +1,6 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { IProductColor } from "../interfaces/IProductColor";
-import { productColorService } from "../services/productColorService";
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { IProductColor } from '../interfaces/IProductColor';
+import { productColorService } from '../services/productColorService';
 
 class ProductColorController {
   async createColor(request: FastifyRequest, reply: FastifyReply) {
