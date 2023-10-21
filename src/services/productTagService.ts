@@ -1,5 +1,5 @@
-import { AppDataSource } from "../db/data-source";
-import { ProductTag } from "../db/entity/ProductTag";
+import { AppDataSource } from '../db/data-source';
+import { ProductTag } from '../db/entity/ProductTag';
 
 class ProductTagService {
   private productTagRepository = AppDataSource.getRepository(ProductTag);
@@ -18,7 +18,7 @@ class ProductTagService {
   async updateProductTag(id: number, tagName: string) {
     const tag = await this.productTagRepository.findOneBy({ id });
     if (tag === null) {
-      return "Tag not found";
+      return 'Tag not found';
     }
     tag.tagName = tagName;
     await this.productTagRepository.save(tag);
@@ -27,10 +27,10 @@ class ProductTagService {
   async deleteProductTag(id: number) {
     const destroyedTag = await this.productTagRepository.delete(id);
     if (destroyedTag.affected === 1) {
-      return "Tag successfully deleted!!!";
+      return 'Tag successfully deleted!!!';
     }
     if (destroyedTag.affected === 0) {
-      return "There is no such tag to delete it!!!";
+      return 'There is no such tag to delete it!!!';
     }
   }
 }

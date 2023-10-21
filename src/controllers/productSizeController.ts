@@ -1,6 +1,6 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { IProductSize } from "../interfaces/IProductSize";
-import { productSizeService } from "../services/productSizeService";
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { IProductSize } from '../interfaces/IProductSize';
+import { productSizeService } from '../services/productSizeService';
 
 class ProductSizeController {
   async createSize(request: FastifyRequest, reply: FastifyReply) {

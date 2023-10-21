@@ -1,11 +1,11 @@
-import { join } from "path";
-import AutoLoad, { AutoloadPluginOptions } from "@fastify/autoload";
-import { FastifyPluginAsync } from "fastify";
-import "reflect-metadata";
-import { AppDataSource } from "./db/data-source";
-import { fastifyCors } from "@fastify/cors";
-import { fastifySwagger } from "@fastify/swagger";
-import { fastifySwaggerUi } from "@fastify/swagger-ui";
+import { join } from 'path';
+import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload';
+import { FastifyPluginAsync } from 'fastify';
+import 'reflect-metadata';
+import { AppDataSource } from './db/data-source';
+import { fastifyCors } from '@fastify/cors';
+import { fastifySwagger } from '@fastify/swagger';
+import { fastifySwaggerUi } from '@fastify/swagger-ui';
 
 export type AppOptions = {
   // Place your custom options for app below here.
@@ -31,9 +31,9 @@ const app: FastifyPluginAsync<AppOptions> = async (
   void fastify.register(fastifySwagger);
 
   void fastify.register(fastifySwaggerUi, {
-    routePrefix: "/documentation",
+    routePrefix: '/documentation',
     uiConfig: {
-      docExpansion: "full",
+      docExpansion: 'full',
       deepLinking: false,
     },
     uiHooks: {
@@ -55,14 +55,14 @@ const app: FastifyPluginAsync<AppOptions> = async (
   void fastify.register(fastifyCors);
 
   void fastify.register(AutoLoad, {
-    dir: join(__dirname, "plugins"),
+    dir: join(__dirname, 'plugins'),
     options: opts,
   });
 
   // This loads all plugins defined in routes
   // define your routes in one of these
   void fastify.register(AutoLoad, {
-    dir: join(__dirname, "routes"),
+    dir: join(__dirname, 'routes'),
     options: opts,
   });
 };

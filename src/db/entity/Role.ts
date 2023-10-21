@@ -6,15 +6,15 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
-import { User } from "./User";
+} from 'typeorm';
+import { User } from './User';
 
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: "USER" })
+  @Column({ default: 'USER' })
   name: string;
 
   @CreateDateColumn()
