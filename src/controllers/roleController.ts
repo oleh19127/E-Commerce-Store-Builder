@@ -1,6 +1,6 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { IRole } from "../interfaces/IRole";
-import { roleService } from "../services/roleService";
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { IRole } from '../interfaces/IRole';
+import { roleService } from '../services/roleService';
 
 class RoleController {
   async getAllRoles(request: FastifyRequest, reply: FastifyReply) {

@@ -1,13 +1,13 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { userService } from "../services/userService";
-import { IUser } from "../interfaces/IUser";
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { userService } from '../services/userService';
+import { IUser } from '../interfaces/IUser';
 
 class UserController {
   async auth(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const token = request.headers.authorization?.split(" ")[1];
+      const token = request.headers.authorization?.split(' ')[1];
       if (token === undefined) {
-        return reply.send("Token Undefined");
+        return reply.send('Token Undefined');
       }
       const result = await userService.auth(token);
       return reply.send({ result });
@@ -49,7 +49,7 @@ class UserController {
       const { email, password } = request.body as IUser;
       const result = await userService.login(email, password);
       if (result === null) {
-        return reply.send("User with this email or password dont exist!!!");
+        return reply.send('User with this email or password dont exist!!!');
       }
       return reply.send({ result });
     } catch (e) {

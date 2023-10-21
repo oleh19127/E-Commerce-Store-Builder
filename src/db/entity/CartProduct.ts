@@ -4,9 +4,9 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Cart } from "./Cart";
-import { Product } from "./Product";
+} from 'typeorm';
+import { Cart } from './Cart';
+import { Product } from './Product';
 
 @Entity()
 export class CartProduct {
