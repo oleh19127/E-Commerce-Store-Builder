@@ -1,4 +1,9 @@
-test-env: [
-  TS_NODE_FILES=true,
-  TS_NODE_PROJECT=./test/tsconfig.json
-]
+# vim: set filetype=yaml :
+test-env:
+  - TS_NODE_FILES=true
+  - TS_NODE_PROJECT=./test/tsconfig.json
+plugin:
+  - "@tapjs/mocha-globals"
+mocha-globals: true
+disable-coverage: true
+allow-empty-coverage: true
