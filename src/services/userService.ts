@@ -3,13 +3,9 @@ import { User } from '../db/entity/User';
 import { Role } from '../db/entity/Role';
 import { hash, compare } from 'bcrypt';
 import { sign, verify } from 'jsonwebtoken';
-import { Cart } from '../db/entity/Cart';
-import { CartProduct } from '../db/entity/CartProduct';
 class UserService {
   private userRepository = AppDataSource.getRepository(User);
   private roleRepository = AppDataSource.getRepository(Role);
-  private cartRepository = AppDataSource.getRepository(Cart);
-  private cartProductRepository = AppDataSource.getRepository(CartProduct);
   private async generateAccessToken(
     id: number,
     email: string,
@@ -39,19 +35,24 @@ class UserService {
   async createUser(email: string, password: string) {
     const hashPassword = hash(password, 1);
     const user = new User();
-    const role = new Role();
-    const cart = new Cart();
-    const cartProduct = new CartProduct();
     user.password = await hashPassword;
     user.email = email;
     await this.userRepository.save(user);
-    cart.userId = user.id;
-    await this.cartRepository.save(cart);
-    cartProduct.cartId = cart.id;
-    await this.cartProductRepository.save(cartProduct);
-    role.userId = user.id;
-    await this.roleRepository.save(role);
-    user.roles = await this.roleRepository.findBy({ userId: user.id });
+    const createdUser = await this.userRepository.findOne({
+      where: { id: user.id },
+      relations: ['roles'],
+    });
+    if (createdUser === null) {
+      return 'User not found';
+    }
+    const defaultRole = await this.roleRepository.findOneBy({
+      roleName: 'USER',
+    });
+    if (defaultRole === null) {
+      return 'Role not found';
+    }
+    createdUser.roles.push(defaultRole);
+    await this.userRepository.save(createdUser);
     return await this.generateAccessToken(
       user.id,
       user.email,
@@ -92,9 +93,6 @@ class UserService {
   }
 
   async delete(id: number) {
-    await this.roleRepository.delete({ userId: id });
-    await this.cartRepository.delete({ userId: id });
-    await this.cartProductRepository.delete({ cartId: id });
     const destroyedUser = await this.userRepository.delete(id);
     if (destroyedUser.affected === 1) {
       return 'User successfully deleted!!!';

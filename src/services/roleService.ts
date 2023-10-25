@@ -1,27 +1,26 @@
 import { AppDataSource } from '../db/data-source';
-import { User } from '../db/entity/User';
+// import { User } from '../db/entity/User';
 import { Role } from '../db/entity/Role';
 
 class RoleService {
   private roleRepository = AppDataSource.getRepository(Role);
-  private userRepository = AppDataSource.getRepository(User);
+  // private userRepository = AppDataSource.getRepository(User);
   async getAllRoles() {
     return await this.roleRepository.findAndCount();
   }
-  async createRole(userId: number, name: string) {
-    const user = await this.userRepository.findOneBy({ id: userId });
-    if (user === null) {
-      return 'User not found';
-    }
+  async createRole(roleName: string) {
+    // const user = await this.userRepository.findOneBy({ id: userId });
+    // if (user === null) {
+    //   return 'User not found';
+    // }
     const role = new Role();
-    role.name = name;
-    role.userId = userId;
+    role.roleName = roleName;
     await this.roleRepository.save(role);
     return role;
   }
 
   async getAllUserRoles(userId: number) {
-    return await this.roleRepository.findAndCountBy({ userId });
+    // return await this.roleRepository.findAndCountBy({ userId });
   }
 
   async deleteRole(id: number) {
@@ -29,7 +28,7 @@ class RoleService {
     if (role === null) {
       return 'Role not found';
     }
-    if (role.name === 'USER') {
+    if (role.roleName === 'USER') {
       return "Role 'USER' cant delete!!!";
     }
     const destroyedRole = await this.roleRepository.delete(id);
@@ -53,11 +52,11 @@ class RoleService {
     if (role === null) {
       return 'Role not found';
     }
-    if (role.name === 'USER') {
+    if (role.roleName === 'USER') {
       return "Role 'USER' cant update!!!";
     }
     if (role && name) {
-      role.name = name;
+      role.roleName = name;
       await this.roleRepository.save(role);
     }
     return role;

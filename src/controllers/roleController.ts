@@ -13,9 +13,8 @@ class RoleController {
   }
   async createRole(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { userId } = request.params as IRole;
-      const { name } = request.body as IRole;
-      const result = await roleService.createRole(userId, name);
+      const { roleName } = request.body as IRole;
+      const result = await roleService.createRole(roleName);
       return reply.send(result);
     } catch (e) {
       return reply.send(e);
@@ -54,8 +53,8 @@ class RoleController {
   async updateRole(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { id } = request.params as IRole;
-      const { name } = request.body as IRole;
-      return await roleService.updateRole(name, id);
+      const { roleName } = request.body as IRole;
+      return await roleService.updateRole(roleName, id);
     } catch (e) {
       return reply.send(e);
     }

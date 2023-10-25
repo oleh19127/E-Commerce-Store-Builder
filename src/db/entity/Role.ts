@@ -13,7 +13,7 @@ export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: 'USER' })
+  @Column({ unique: true, default: 'USER' })
   roleName: string;
 
   @CreateDateColumn()
@@ -22,8 +22,6 @@ export class Role {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column()
-  userId: number;
   @ManyToMany(() => User, (user) => user.roles)
   users: User[];
 }

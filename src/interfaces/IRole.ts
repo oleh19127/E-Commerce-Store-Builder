@@ -1,5 +1,5 @@
 export interface IRole {
-  name: string;
+  roleName: string;
   userId: number;
   createdAt: string;
   updatedAt: string;

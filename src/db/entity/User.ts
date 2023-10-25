@@ -3,14 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
 import { Role } from './Role';
-import { Cart } from './Cart';
 import { Product } from './Product';
 
 @Entity()
@@ -36,10 +34,10 @@ export class User {
   @JoinTable()
   roles: Role[];
 
-  @OneToOne(() => User, (user) => user.cart, {
-    onDelete: 'CASCADE',
-  })
-  cart: Cart;
+  // @OneToOne(() => User, (user) => user.cart, {
+  //   onDelete: 'CASCADE',
+  // })
+  // cart: Cart;
 
   @OneToMany(() => User, (user) => user.products, {
     onDelete: 'CASCADE',
