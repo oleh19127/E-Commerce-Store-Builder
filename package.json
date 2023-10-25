@@ -37,7 +37,7 @@
   "author": "Oleh Husak (https://github.com/oleh19127)",
   "license": "ISC",
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "dependencies": {
     "@fastify/autoload": "^5.8.0",
@@ -57,10 +57,10 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.4",
-    "@types/node": "^20.8.7",
+    "@types/node": "^20.8.8",
     "@types/tap": "^15.0.10",
-    "@typescript-eslint/eslint-plugin": "^6.8.0",
-    "@typescript-eslint/parser": "^6.8.0",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
@@ -70,6 +70,6 @@
     "tap": "^16.3.9",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
-    "husky": "^8.0.0"
+    "husky": "^8.0.3"
   }
 }
