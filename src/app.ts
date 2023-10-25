@@ -32,9 +32,10 @@ const app: FastifyPluginAsync<AppOptions> = async (
 
   void fastify.register(fastifySwaggerUi, {
     routePrefix: '/documentation',
+    logLevel: 'info',
     uiConfig: {
       docExpansion: 'full',
-      deepLinking: false,
+      deepLinking: true,
     },
     uiHooks: {
       onRequest: function (request, reply, next) {
@@ -44,12 +45,10 @@ const app: FastifyPluginAsync<AppOptions> = async (
         next();
       },
     },
-    staticCSP: true,
     transformStaticCSP: (header) => header,
     transformSpecification: (swaggerObject, request, reply) => {
       return swaggerObject;
     },
-    transformSpecificationClone: true,
   });
 
   void fastify.register(fastifyCors);
