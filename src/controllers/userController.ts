@@ -75,6 +75,16 @@ class UserController {
       return reply.send(e);
     }
   }
+
+  async makeAdmin(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { id } = request.params as IUser;
+      const result = await userService.makeAdmin(id);
+      return reply.send(result);
+    } catch (e) {
+      return reply.send(e);
+    }
+  }
 }
 
 export const userController = new UserController();
