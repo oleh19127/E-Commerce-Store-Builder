@@ -25,7 +25,10 @@ class UserService {
   }
 
   async getOne(id: number) {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['roles'],
+    });
     if (user === null) {
       return 'User not found';
     }
@@ -107,6 +110,25 @@ class UserService {
       return 'User is not authorized';
     }
     return verify(token, 'some secret key');
+  }
+
+  async makeAdmin(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['roles'],
+    });
+    if (user === null) {
+      return 'User not found';
+    }
+    const adminRole = await this.roleRepository.findOneBy({
+      roleName: 'ADMIN',
+    });
+    if (adminRole === null) {
+      return 'Role not found';
+    }
+    user.roles.push(adminRole);
+    await this.userRepository.save(user);
+    return user;
   }
 }
 
