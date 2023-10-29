@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { IRole } from '../interfaces/IRole';
 import { roleService } from '../services/roleService';
+import { statusCodes } from '../status-codes';
 
 class RoleController {
   async getAllRoles(request: FastifyRequest, reply: FastifyReply) {
@@ -15,7 +16,7 @@ class RoleController {
     try {
       const { roleName } = request.body as IRole;
       const result = await roleService.createRole(roleName);
-      return reply.send(result);
+      return reply.status(statusCodes.CREATED_201).send(result);
     } catch (e) {
       return reply.send(e);
     }
@@ -45,7 +46,7 @@ class RoleController {
     try {
       const { id } = request.params as IRole;
       const result = await roleService.getOneRole(id);
-      return reply.send(result);
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
