@@ -9,10 +9,6 @@ class RoleService {
     return await this.roleRepository.findAndCount();
   }
   async createRole(roleName: string) {
-    // const user = await this.userRepository.findOneBy({ id: userId });
-    // if (user === null) {
-    //   return 'User not found';
-    // }
     const role = new Role();
     role.roleName = roleName;
     await this.roleRepository.save(role);

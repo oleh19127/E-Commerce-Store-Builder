@@ -7,7 +7,7 @@ class RoleController {
   async getAllRoles(request: FastifyRequest, reply: FastifyReply) {
     try {
       const result = await roleService.getAllRoles();
-      return reply.send(result);
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }

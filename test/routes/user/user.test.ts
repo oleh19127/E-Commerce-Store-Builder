@@ -9,10 +9,9 @@ test('user route', async (t) => {
 
   // Clean the database before each test
   await AppDataSource.synchronize(true);
-
-  t.before(async () => {
-    await roleService.createRole('USER');
-    await roleService.createRole('ADMIN');
+  t.before(() => {
+    roleService.createRole('USER');
+    roleService.createRole('ADMIN');
   });
 
   // Test Create operation
