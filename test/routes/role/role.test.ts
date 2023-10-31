@@ -5,8 +5,8 @@ import { AppDataSource } from '../../../src/db/data-source';
 
 test('user route', async (t) => {
   const app = await build(t);
-  await AppDataSource.synchronize(true);
 
+  await AppDataSource.synchronize(true);
   // Test Create operation
   const createRole = await app.inject({
     url: '/role',
@@ -30,4 +30,7 @@ test('user route', async (t) => {
     200,
     'Read operation should return 200 status',
   );
+  t.after(async () => {
+    await AppDataSource.synchronize(true);
+  });
 });

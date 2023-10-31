@@ -4,6 +4,4 @@ test-env:
   - TS_NODE_PROJECT=./test/tsconfig.json
 disable-coverage: true
 allow-empty-coverage: true
-plugin:
-  - "@tapjs/mocha-globals"
-mocha-globals: true
+allow-incomplete-coverage: true

@@ -98,4 +98,8 @@ test('user route', async (t) => {
     statusCodes.OK_200,
     'Delete operation should return status code 200',
   );
+
+  t.after(async () => {
+    await AppDataSource.synchronize(true);
+  });
 });
