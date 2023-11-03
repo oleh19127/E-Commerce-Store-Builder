@@ -29,7 +29,7 @@ class UserController {
     try {
       const { id } = request.params as IUser;
       const result = await userService.getOne(id);
-      return reply.send(result);
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
