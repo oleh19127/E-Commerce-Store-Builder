@@ -67,7 +67,7 @@
     "fastify-tsconfig": "^2.0.0",
     "husky": "^8.0.3",
     "prettier": "^3.0.3",
-    "tap": "^18.5.3",
+    "tap": "^18.5.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
