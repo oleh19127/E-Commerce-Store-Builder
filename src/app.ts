@@ -28,13 +28,35 @@ const app: FastifyPluginAsync<AppOptions> = async (
   // those should be support plugins that are reused
   // through your application
 
-  void fastify.register(fastifySwagger);
+  void fastify.register(fastifySwagger, {
+    openapi: {
+      info: {
+        title: 'Test swagger',
+        description: 'testing the fastify swagger api',
+        version: '0.1.0',
+      },
+      servers: [
+        {
+          url: 'http://127.0.0.1:3000/',
+        },
+      ],
+      components: {
+        securitySchemes: {
+          apiKey: {
+            type: 'apiKey',
+            name: 'apiKey',
+            in: 'header',
+          },
+        },
+      },
+    },
+    hideUntagged: true,
+  });
 
   void fastify.register(fastifySwaggerUi, {
-    routePrefix: '/documentation',
-    logLevel: 'info',
+    routePrefix: '/doc',
     uiConfig: {
-      docExpansion: 'full',
+      docExpansion: 'list',
       deepLinking: true,
     },
     uiHooks: {
@@ -45,10 +67,12 @@ const app: FastifyPluginAsync<AppOptions> = async (
         next();
       },
     },
+    staticCSP: true,
     transformStaticCSP: (header) => header,
     transformSpecification: (swaggerObject, request, reply) => {
       return swaggerObject;
     },
+    transformSpecificationClone: true,
   });
 
   void fastify.register(fastifyCors);
