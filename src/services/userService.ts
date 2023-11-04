@@ -3,13 +3,9 @@ import { User } from '../db/entity/User';
 import { Role } from '../db/entity/Role';
 import { hash, compare } from 'bcrypt';
 import { sign, verify } from 'jsonwebtoken';
-import { Cart } from '../db/entity/Cart';
-import { CartProduct } from '../db/entity/CartProduct';
 class UserService {
   private userRepository = AppDataSource.getRepository(User);
   private roleRepository = AppDataSource.getRepository(Role);
-  private cartRepository = AppDataSource.getRepository(Cart);
-  private cartProductRepository = AppDataSource.getRepository(CartProduct);
   private async generateAccessToken(
     id: number,
     email: string,
@@ -25,11 +21,14 @@ class UserService {
     return sign(payload, 'some secret key', { expiresIn: '2h' });
   }
   async getAllUsers() {
-    return await this.userRepository.findAndCount({ relations: ['roles'] });
+    return await this.userRepository.find({ relations: ['roles'] });
   }
 
   async getOne(id: number) {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['roles'],
+    });
     if (user === null) {
       return 'User not found';
     }
@@ -39,19 +38,24 @@ class UserService {
   async createUser(email: string, password: string) {
     const hashPassword = hash(password, 1);
     const user = new User();
-    const role = new Role();
-    const cart = new Cart();
-    const cartProduct = new CartProduct();
     user.password = await hashPassword;
     user.email = email;
     await this.userRepository.save(user);
-    cart.userId = user.id;
-    await this.cartRepository.save(cart);
-    cartProduct.cartId = cart.id;
-    await this.cartProductRepository.save(cartProduct);
-    role.userId = user.id;
-    await this.roleRepository.save(role);
-    user.roles = await this.roleRepository.findBy({ userId: user.id });
+    const createdUser = await this.userRepository.findOne({
+      where: { id: user.id },
+      relations: ['roles'],
+    });
+    if (createdUser === null) {
+      return 'User not found';
+    }
+    const defaultRole = await this.roleRepository.findOneBy({
+      roleName: 'USER',
+    });
+    if (defaultRole === null) {
+      return 'Role not found';
+    }
+    createdUser.roles.push(defaultRole);
+    await this.userRepository.save(createdUser);
     return await this.generateAccessToken(
       user.id,
       user.email,
@@ -66,11 +70,11 @@ class UserService {
       where: { email },
     });
     if (candidate === null) {
-      return 'User not found';
+      return { message: 'User not found' };
     }
     const validPassword = await compare(password, candidate.password);
     if (!validPassword) {
-      return 'Password wrong';
+      return { message: 'Password wrong' };
     }
     return await this.generateAccessToken(
       candidate.id,
@@ -92,23 +96,39 @@ class UserService {
   }
 
   async delete(id: number) {
-    await this.roleRepository.delete({ userId: id });
-    await this.cartRepository.delete({ userId: id });
-    await this.cartProductRepository.delete({ cartId: id });
     const destroyedUser = await this.userRepository.delete(id);
     if (destroyedUser.affected === 1) {
-      return 'User successfully deleted!!!';
+      return { message: 'User successfully deleted!!!' };
     }
     if (destroyedUser.affected === 0) {
-      return 'There is no such user to delete it!!!';
+      return { message: 'There is no such user to delete it!!!' };
     }
   }
 
   async auth(token: string) {
     if (!token) {
-      return 'User is not authorized';
+      return { message: 'User is not authorized' };
     }
     return verify(token, 'some secret key');
+  }
+
+  async makeAdmin(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['roles'],
+    });
+    if (user === null) {
+      return { message: 'User not found' };
+    }
+    const adminRole = await this.roleRepository.findOneBy({
+      roleName: 'ADMIN',
+    });
+    if (adminRole === null) {
+      return { message: 'Role not found' };
+    }
+    user.roles.push(adminRole);
+    await this.userRepository.save(user);
+    return user;
   }
 }
 

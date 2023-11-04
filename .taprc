@@ -1,4 +1,7 @@
-test-env: [
-  TS_NODE_FILES=true,
-  TS_NODE_PROJECT=./test/tsconfig.json
-]
+# vim: set filetype=yaml :
+test-env:
+  - TS_NODE_FILES=true
+  - TS_NODE_PROJECT=./test/tsconfig.json
+disable-coverage: true
+allow-empty-coverage: true
+allow-incomplete-coverage: true

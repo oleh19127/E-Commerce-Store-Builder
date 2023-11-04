@@ -2,8 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToOne,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,8 +13,8 @@ export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: 'USER' })
-  name: string;
+  @Column({ unique: true, default: 'USER' })
+  roleName: string;
 
   @CreateDateColumn()
   created_at: Date;
@@ -23,10 +22,6 @@ export class Role {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column()
-  userId: number;
-
-  @ManyToOne(() => User, (user) => user.roles)
-  @JoinTable()
-  user: User;
+  @ManyToMany(() => User, (user) => user.roles)
+  users: User[];
 }

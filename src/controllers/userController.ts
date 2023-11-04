@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { userService } from '../services/userService';
 import { IUser } from '../interfaces/IUser';
+import { statusCodes } from '../status-codes';
 
 class UserController {
   async auth(request: FastifyRequest, reply: FastifyReply) {
@@ -10,7 +11,7 @@ class UserController {
         return reply.send('Token Undefined');
       }
       const result = await userService.auth(token);
-      return reply.send({ result });
+      return reply.status(statusCodes.OK_200).send({ result });
     } catch (e) {
       return reply.send(e);
     }
@@ -18,7 +19,7 @@ class UserController {
   async getAllUsers(request: FastifyRequest, reply: FastifyReply) {
     try {
       const allUsers = await userService.getAllUsers();
-      return reply.send(allUsers);
+      return reply.status(statusCodes.OK_200).send(allUsers);
     } catch (e) {
       return reply.send(e);
     }
@@ -28,7 +29,7 @@ class UserController {
     try {
       const { id } = request.params as IUser;
       const result = await userService.getOne(id);
-      return reply.send(result);
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
@@ -38,7 +39,7 @@ class UserController {
     try {
       const { email, password } = request.body as IUser;
       const createdUser = await userService.createUser(email, password);
-      return reply.send({ createdUser });
+      return reply.status(statusCodes.CREATED_201).send({ createdUser });
     } catch (e) {
       return reply.send(e);
     }
@@ -49,9 +50,11 @@ class UserController {
       const { email, password } = request.body as IUser;
       const result = await userService.login(email, password);
       if (result === null) {
-        return reply.send('User with this email or password dont exist!!!');
+        return reply.send({
+          message: 'User with this email or password dont exist!!!',
+        });
       }
-      return reply.send({ result });
+      return reply.status(statusCodes.OK_200).send({ result });
     } catch (e) {
       return reply.send(e);
     }
@@ -61,7 +64,7 @@ class UserController {
       const { email, password } = request.body as IUser;
       const { id } = request.params as IUser;
       const result = await userService.update(email, password, id);
-      return reply.send(result);
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
@@ -70,7 +73,17 @@ class UserController {
     try {
       const { id } = request.params as IUser;
       const result = await userService.delete(id);
-      return reply.send(result);
+      return reply.status(statusCodes.OK_200).send(result);
+    } catch (e) {
+      return reply.send(e);
+    }
+  }
+
+  async makeAdmin(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { id } = request.params as IUser;
+      const result = await userService.makeAdmin(id);
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
