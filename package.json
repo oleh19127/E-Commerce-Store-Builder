@@ -37,7 +37,7 @@
   "author": "Oleh Husak (https://github.com/oleh19127)",
   "license": "ISC",
   "engines": {
-    "node": "20.x"
+    "node": "18.x"
   },
   "dependencies": {
     "@fastify/autoload": "^5.8.0",
@@ -67,7 +67,7 @@
     "fastify-tsconfig": "^2.0.0",
     "husky": "^8.0.3",
     "prettier": "^3.0.3",
-    "tap": "^18.5.5",
+    "tap": "^18.5.7",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
