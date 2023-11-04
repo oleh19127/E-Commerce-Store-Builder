@@ -21,7 +21,7 @@ class UserService {
     return sign(payload, 'some secret key', { expiresIn: '2h' });
   }
   async getAllUsers() {
-    return await this.userRepository.findAndCount({ relations: ['roles'] });
+    return await this.userRepository.find({ relations: ['roles'] });
   }
 
   async getOne(id: number) {
@@ -70,11 +70,11 @@ class UserService {
       where: { email },
     });
     if (candidate === null) {
-      return 'User not found';
+      return { message: 'User not found' };
     }
     const validPassword = await compare(password, candidate.password);
     if (!validPassword) {
-      return 'Password wrong';
+      return { message: 'Password wrong' };
     }
     return await this.generateAccessToken(
       candidate.id,
@@ -98,16 +98,16 @@ class UserService {
   async delete(id: number) {
     const destroyedUser = await this.userRepository.delete(id);
     if (destroyedUser.affected === 1) {
-      return 'User successfully deleted!!!';
+      return { message: 'User successfully deleted!!!' };
     }
     if (destroyedUser.affected === 0) {
-      return 'There is no such user to delete it!!!';
+      return { message: 'There is no such user to delete it!!!' };
     }
   }
 
   async auth(token: string) {
     if (!token) {
-      return 'User is not authorized';
+      return { message: 'User is not authorized' };
     }
     return verify(token, 'some secret key');
   }
@@ -118,13 +118,13 @@ class UserService {
       relations: ['roles'],
     });
     if (user === null) {
-      return 'User not found';
+      return { message: 'User not found' };
     }
     const adminRole = await this.roleRepository.findOneBy({
       roleName: 'ADMIN',
     });
     if (adminRole === null) {
-      return 'Role not found';
+      return { message: 'Role not found' };
     }
     user.roles.push(adminRole);
     await this.userRepository.save(user);
