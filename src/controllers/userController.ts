@@ -50,9 +50,11 @@ class UserController {
       const { email, password } = request.body as IUser;
       const result = await userService.login(email, password);
       if (result === null) {
-        return reply.send('User with this email or password dont exist!!!');
+        return reply.send({
+          message: 'User with this email or password dont exist!!!',
+        });
       }
-      return reply.send({ result });
+      return reply.status(statusCodes.OK_200).send({ result });
     } catch (e) {
       return reply.send(e);
     }
