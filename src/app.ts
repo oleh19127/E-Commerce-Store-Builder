@@ -35,11 +35,6 @@ const app: FastifyPluginAsync<AppOptions> = async (
         description: 'testing the fastify swagger api',
         version: '0.1.0',
       },
-      servers: [
-        {
-          url: 'http://127.0.0.1:3000/',
-        },
-      ],
       components: {
         securitySchemes: {
           apiKey: {

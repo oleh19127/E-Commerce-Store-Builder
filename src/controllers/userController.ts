@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { userService } from '../services/userService';
 import { IUser } from '../interfaces/IUser';
-import { statusCodes } from '../status-codes';
+import { statusCodes } from '../static-helpers/status-codes';
 
 class UserController {
   async auth(request: FastifyRequest, reply: FastifyReply) {
