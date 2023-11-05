@@ -5,26 +5,28 @@ import { userService } from '../../../src/services/userService';
 import { AppDataSource } from '../../../src/db/data-source';
 import { User } from '../../../src/db/entity/User';
 
-test('Get all user roles route', async (t) => {
+test('Create user route', async (t) => {
   const app = await build(t);
   const userRepository = AppDataSource.getRepository(User);
-  await userService.createUser('getAllUserRoles@gmail.com', 'password');
-  const foundedUser = await userRepository.findOneBy({
-    email: 'getAllUserRoles@gmail.com',
-  });
-  if (foundedUser === null) {
-    return 'User dont found';
-  }
   const res = await app.inject({
-    url: `/role/${foundedUser.id}`,
-    method: 'GET',
+    url: '/user/registration',
+    method: 'POST',
+    payload: { email: 'createUserRoute@gmail.com', password: 'pass' },
   });
   t.equal(
     res.statusCode,
-    statusCodes.OK_200,
-    'Get all user roles operation should return status 200',
+    statusCodes.CREATED_201,
+    'Create user operation should return status 201',
   );
+  const user = await userRepository.findOneBy({
+    email: 'createUserRoute@gmail.com',
+  });
+  if (user === null) {
+    return 'User not found';
+  }
+  t.same(user.email, 'createUserRoute@gmail.com');
+
   t.after(async () => {
-    await userService.delete(foundedUser.id);
+    await userService.delete(user.id);
   });
 });
