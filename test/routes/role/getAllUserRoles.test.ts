@@ -8,9 +8,9 @@ import { User } from '../../../src/db/entity/User';
 test('Get all user roles route', async (t) => {
   const app = await build(t);
   const userRepository = AppDataSource.getRepository(User);
-  await userService.createUser('test@gmail.com', 'password');
+  await userService.createUser('getAllUserRoles@gmail.com', 'password');
   const foundedUser = await userRepository.findOneBy({
-    email: 'test@gmail.com',
+    email: 'getAllUserRoles@gmail.com',
   });
   if (foundedUser === null) {
     return 'User dont found';
