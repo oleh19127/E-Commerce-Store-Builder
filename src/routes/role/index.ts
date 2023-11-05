@@ -9,7 +9,7 @@ import { getAllUserRolesSchema } from '../../swagger-schemas/role/getAllUserRole
 
 const role: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.post('/', createRoleSchema, roleController.createRole);
-  fastify.get('/get/one/:id', getOneRoleSchema, roleController.getOneRole);
+  fastify.get('/get-one/:id', getOneRoleSchema, roleController.getOneRole);
   fastify.get('/', getAllRolesSchema, roleController.getAllRoles);
   fastify.delete('/:id', deleteRoleSchema, roleController.deleteRole);
   fastify.put('/:id', updateRoleSchema, roleController.updateRole);
