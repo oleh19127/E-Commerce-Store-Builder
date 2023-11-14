@@ -2,13 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CartProduct } from './CartProduct';
 import { ProductColor } from './ProductColor';
 import { ProductSize } from './ProductSize';
 import { ProductTag } from './ProductTag';
@@ -16,19 +15,13 @@ import { ProductStyle } from './ProductStyle';
 import { ProductWeight } from './ProductWeight';
 import { ProductImage } from './ProductImage';
 import { ProductCategory } from './ProductCategory';
-import { User } from './User';
 import { ProductDescription } from './ProductDescription';
+import { Cart } from './Cart';
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  userId: number;
-
-  @Column({ nullable: true })
-  cartProductId: number;
 
   @Column()
   title: string;
@@ -48,11 +41,8 @@ export class Product {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => Product, (product) => product.user)
-  user: User;
-
-  @ManyToOne(() => Product, (product) => product.cartProduct)
-  cartProduct: CartProduct;
+  @ManyToMany(() => Product, (product) => product.carts)
+  carts: Cart[];
 
   @OneToMany(() => Product, (product) => product.productColors)
   productColors: ProductColor[];
