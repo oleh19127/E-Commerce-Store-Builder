@@ -17,22 +17,5 @@ export const AppDataSource = new DataSource({
   url: process.env.DATA_BASE_URL, // external only
   synchronize: true,
   logging: true,
-  entities: [
-    User,
-    Role,
-    // Cart,
-    // CartProduct,
-    // ProductCategory,
-    // ProductColor,
-    // ProductImage,
-    // ProductSize,
-    // ProductStyle,
-    // ProductTag,
-    // ProductWeight,
-    // Product,
-    // ProductDescription,
-    // ProductDescriptionInformation,
-  ],
-  subscribers: [],
-  migrations: [],
+  entities: [User, Role],
 });

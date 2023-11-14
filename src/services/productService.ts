@@ -15,7 +15,6 @@ class ProductService {
     product.price = price;
     product.subtitle = subtitle;
     product.title = title;
-    product.userId = userId;
     await this.productRepository.save(product);
     return product;
   }
@@ -47,7 +46,6 @@ class ProductService {
     product.price = price;
     product.subtitle = subtitle;
     product.title = title;
-    product.cartProductId = cartProductId;
     await this.productRepository.save(product);
     return product;
   }
