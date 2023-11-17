@@ -1,9 +1,7 @@
 export interface IProduct {
-  productId: number;
-  cartProductId: number;
+  id: number;
   title: string;
   subtitle: string;
   price: number;
   sku: number;
-  userId: number;
 }
