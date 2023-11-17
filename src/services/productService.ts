@@ -8,7 +8,6 @@ class ProductService {
     price: number,
     subtitle: string,
     title: string,
-    userId: number,
   ) {
     const product = new Product();
     product.sku = sku;
@@ -20,10 +19,13 @@ class ProductService {
   }
 
   async getAll() {
-    return await this.productRepository.findAndCount();
+    return await this.productRepository.find({ relations: ['colors'] });
   }
   async getOne(productId: number) {
-    const product = await this.productRepository.findOneBy({ id: productId });
+    const product = await this.productRepository.findOne({
+      where: { id: productId },
+      relations: ['colors'],
+    });
     if (product === null) {
       return 'product not found!!!';
     }
@@ -36,7 +38,6 @@ class ProductService {
     price: number,
     subtitle: string,
     title: string,
-    cartProductId: number,
   ) {
     const product = await this.productRepository.findOneBy({ id: productId });
     if (product === null) {

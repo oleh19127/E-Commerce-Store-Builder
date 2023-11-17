@@ -1,6 +1,8 @@
 import { DataSource } from 'typeorm';
 import { User } from './entity/User';
 import { Role } from './entity/Role';
+import { Product } from './entity/Product';
+import { Color } from './entity/Color';
 
 const port = process.env.DATA_BASE_PORT
   ? parseInt(process.env.DATA_BASE_PORT)
@@ -17,5 +19,5 @@ export const AppDataSource = new DataSource({
   url: process.env.DATA_BASE_URL, // external only
   synchronize: true,
   logging: true,
-  entities: [User, Role],
+  entities: [User, Role, Product, Color],
 });

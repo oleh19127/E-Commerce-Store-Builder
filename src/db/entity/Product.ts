@@ -2,21 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ProductColor } from './ProductColor';
-import { ProductSize } from './ProductSize';
-import { ProductTag } from './ProductTag';
-import { ProductStyle } from './ProductStyle';
-import { ProductWeight } from './ProductWeight';
-import { ProductImage } from './ProductImage';
-import { ProductCategory } from './ProductCategory';
-import { ProductDescription } from './ProductDescription';
-import { Cart } from './Cart';
+import { Color } from './Color';
 
 @Entity()
 export class Product {
@@ -41,30 +32,9 @@ export class Product {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToMany(() => Product, (product) => product.carts)
-  carts: Cart[];
-
-  @OneToMany(() => Product, (product) => product.productColors)
-  productColors: ProductColor[];
-
-  @OneToMany(() => Product, (product) => product.productSizes)
-  productSizes: ProductSize[];
-
-  @OneToMany(() => Product, (product) => product.productTags)
-  productTags: ProductTag[];
-
-  @OneToMany(() => Product, (product) => product.productStyles)
-  productStyles: ProductStyle[];
-
-  @OneToOne(() => Product, (product) => product.productWeight)
-  productWeight: ProductWeight;
-
-  @OneToMany(() => Product, (product) => product.productImages)
-  productImages: ProductImage[];
-
-  @OneToMany(() => Product, (product) => product.productCategories)
-  productCategories: ProductCategory[];
-
-  @OneToOne(() => Product, (product) => product.productDescription)
-  productDescription: ProductDescription;
+  @ManyToMany(() => Product, (product) => product.colors, {
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  colors: Color[];
 }
