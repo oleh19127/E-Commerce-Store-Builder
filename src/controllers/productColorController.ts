@@ -1,27 +1,23 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { IProductColor } from '../interfaces/IProductColor';
 import { productColorService } from '../services/productColorService';
+import { statusCodes } from '../static-helpers/status-codes';
 
 class ProductColorController {
   async createColor(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { productId } = request.params as IProductColor;
       const { colorValue } = request.body as IProductColor;
-      const result = await productColorService.createColor(
-        productId,
-        colorValue,
-      );
-      return reply.send(result);
+      const result = await productColorService.createColor(colorValue);
+      return reply.status(statusCodes.CREATED_201).send(result);
     } catch (e) {
       return reply.send(e);
     }
   }
 
-  async getAllProductColors(request: FastifyRequest, reply: FastifyReply) {
+  async getAllColors(_request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { productId } = request.params as IProductColor;
-      const result = await productColorService.getAllProductColors(productId);
-      return reply.send(result);
+      const result = await productColorService.getAllColors();
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
@@ -32,7 +28,7 @@ class ProductColorController {
       const { id } = request.params as IProductColor;
       const { colorValue } = request.body as IProductColor;
       const result = await productColorService.updateColor(id, colorValue);
-      return reply.send(result);
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
@@ -42,7 +38,7 @@ class ProductColorController {
     try {
       const { id } = request.params as IProductColor;
       const result = await productColorService.deleteColor(id);
-      return reply.send(result);
+      return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
