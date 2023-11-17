@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
-import { productColorController } from '../../controllers/productColorController';
+import { colorController } from '../../controllers/ColorController';
 import { createColorSchema } from '../../swagger-schemas/color/createColorSchema';
 import { getAllColorsSchema } from '../../swagger-schemas/color/getAllColorsSchema';
 import { updateColorSchema } from '../../swagger-schemas/color/updateColorSchema';
@@ -9,10 +9,10 @@ const productColor: FastifyPluginAsync = async (
   fastify,
   opts,
 ): Promise<void> => {
-  fastify.post('/', createColorSchema, productColorController.createColor);
-  fastify.get('/', getAllColorsSchema, productColorController.getAllColors);
-  fastify.put('/:id', updateColorSchema, productColorController.updateColor);
-  fastify.delete('/:id', deleteColorSchema, productColorController.deleteColor);
+  fastify.post('/', createColorSchema, colorController.createColor);
+  fastify.get('/', getAllColorsSchema, colorController.getAllColors);
+  fastify.put('/:id', updateColorSchema, colorController.updateColor);
+  fastify.delete('/:id', deleteColorSchema, colorController.deleteColor);
 };
 
 export default productColor;

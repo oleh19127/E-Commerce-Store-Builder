@@ -1,13 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { IProductColor } from '../interfaces/IProductColor';
-import { productColorService } from '../services/productColorService';
+import { IColor } from '../interfaces/IColor';
 import { statusCodes } from '../static-helpers/status-codes';
+import { colorService } from '../services/colorService';
 
-class ProductColorController {
+class ColorController {
   async createColor(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { colorValue } = request.body as IProductColor;
-      const result = await productColorService.createColor(colorValue);
+      const { colorValue } = request.body as IColor;
+      const result = await colorService.createColor(colorValue);
       return reply.status(statusCodes.CREATED_201).send(result);
     } catch (e) {
       return reply.send(e);
@@ -16,7 +16,7 @@ class ProductColorController {
 
   async getAllColors(_request: FastifyRequest, reply: FastifyReply) {
     try {
-      const result = await productColorService.getAllColors();
+      const result = await colorService.getAllColors();
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -25,9 +25,9 @@ class ProductColorController {
 
   async updateColor(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IProductColor;
-      const { colorValue } = request.body as IProductColor;
-      const result = await productColorService.updateColor(id, colorValue);
+      const { id } = request.params as IColor;
+      const { colorValue } = request.body as IColor;
+      const result = await colorService.updateColor(id, colorValue);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -36,8 +36,8 @@ class ProductColorController {
 
   async deleteColor(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IProductColor;
-      const result = await productColorService.deleteColor(id);
+      const { id } = request.params as IColor;
+      const result = await colorService.deleteColor(id);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -45,4 +45,4 @@ class ProductColorController {
   }
 }
 
-export const productColorController = new ProductColorController();
+export const colorController = new ColorController();
