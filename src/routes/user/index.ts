@@ -7,6 +7,7 @@ import { updateUserSchema } from '../../swagger-schemas/user/updateUserSchema';
 import { deleteUserSchema } from '../../swagger-schemas/user/deleteUserSchema';
 import { addRoleUserSchema } from '../../swagger-schemas/user/addRoleUserSchema';
 import { loginUserSchema } from '../../swagger-schemas/user/loginUserSchema';
+import { deleteRoleUserSchema } from '../../swagger-schemas/user/deleteRoleUserSchema';
 
 const user: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.get('/one/:userId', getOneUserSchema, userController.getOne);
@@ -14,9 +15,13 @@ const user: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.post('/registration', createUserSchema, userController.createUser);
   fastify.put('/:userId', updateUserSchema, userController.update);
   fastify.delete('/:userId', deleteUserSchema, userController.delete);
-  fastify.post('/add-role/:roleId', addRoleUserSchema, userController.addRole);
+  fastify.post('/add-role/:userId', addRoleUserSchema, userController.addRole);
+  fastify.delete(
+    '/delete-role/:userId',
+    deleteRoleUserSchema,
+    userController.deleteRole,
+  );
   fastify.post('/login', loginUserSchema, userController.login);
-
   fastify.get('/auth', userController.auth);
 };
 

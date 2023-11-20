@@ -90,6 +90,17 @@ class UserController {
       return reply.send(e);
     }
   }
+
+  async deleteRole(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { userId } = request.params as IUser;
+      const { roleName } = request.body as IRole;
+      const result = await userService.deleteRole(userId, roleName);
+      return reply.status(statusCodes.OK_200).send(result);
+    } catch (e) {
+      return reply.send(e);
+    }
+  }
 }
 
 export const userController = new UserController();

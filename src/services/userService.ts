@@ -128,6 +128,21 @@ class UserService {
     await this.userRepository.save(user);
     return user;
   }
+
+  async deleteRole(userId: number, roleName: string) {
+    const user = await this.userRepository.findOne({
+      where: { userId },
+      relations: ['roles'],
+    });
+    if (user === null) {
+      return { message: 'User not found' };
+    }
+    user.roles = user.roles.filter((role) => {
+      return role.roleName !== roleName;
+    });
+    await this.userRepository.save(user);
+    return user;
+  }
 }
 
 export const userService = new UserService();
