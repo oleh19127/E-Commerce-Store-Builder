@@ -19,6 +19,6 @@ test('Create color route', async (t) => {
   t.same(resPayload.colorValue, 'green');
 
   t.after(async () => {
-    await colorService.deleteColor(resPayload.id);
+    await colorService.deleteColor(resPayload.colorId);
   });
 });

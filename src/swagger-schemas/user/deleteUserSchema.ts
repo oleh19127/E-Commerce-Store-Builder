@@ -5,7 +5,7 @@ export const deleteUserSchema = {
     params: {
       type: 'object',
       properties: {
-        id: { type: 'number' },
+        userId: { type: 'number' },
       },
     },
     response: {

@@ -3,5 +3,5 @@ export interface IRole {
   userId: number;
   createdAt: string;
   updatedAt: string;
-  id: number;
+  roleId: number;
 }

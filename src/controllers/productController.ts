@@ -30,8 +30,8 @@ class ProductController {
 
   async getOneProduct(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IProduct;
-      const result = await productService.getOne(id);
+      const { productId } = request.params as IProduct;
+      const result = await productService.getOne(productId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -39,10 +39,10 @@ class ProductController {
   }
   async updateProduct(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IProduct;
+      const { productId } = request.params as IProduct;
       const { sku, price, subtitle, title } = request.body as IProduct;
       const result = await productService.update(
-        id,
+        productId,
         sku,
         price,
         subtitle,
@@ -56,8 +56,8 @@ class ProductController {
 
   async deleteProduct(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IProduct;
-      const result = await productService.delete(id);
+      const { productId } = request.params as IProduct;
+      const result = await productService.delete(productId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);

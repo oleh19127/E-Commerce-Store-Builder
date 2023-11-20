@@ -8,7 +8,7 @@ export const getAllUsersSchema = {
         items: {
           type: 'object',
           properties: {
-            id: { type: 'number' },
+            userId: { type: 'number' },
             email: { type: 'string' },
             password: { type: 'string' },
             created_at: { type: 'string', format: 'date-time' },
@@ -18,7 +18,7 @@ export const getAllUsersSchema = {
               items: {
                 type: 'object',
                 properties: {
-                  id: { type: 'number' },
+                  userId: { type: 'number' },
                   roleName: { type: 'string' },
                   created_at: { type: 'string', format: 'date-time' },
                   updated_at: { type: 'string', format: 'date-time' },

@@ -7,7 +7,7 @@ test('Delete color route', async (t) => {
   const app = await build(t);
   const color = await colorService.createColor('delete color');
   const res = await app.inject({
-    url: `/color/${color.id}`,
+    url: `/color/${color.colorId}`,
     method: 'DELETE',
   });
   t.equal(

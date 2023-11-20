@@ -7,7 +7,7 @@ test('Get one role route', async (t) => {
   const app = await build(t);
   const role = await roleService.createRole('PROGRAMMER');
   const res = await app.inject({
-    url: `/role/get-one/${role.id}`,
+    url: `/role/get-one/${role.roleId}`,
     method: 'GET',
   });
   const resPayload = JSON.parse(res.payload);
@@ -18,6 +18,6 @@ test('Get one role route', async (t) => {
     'Get one role operation should return status 200',
   );
   t.after(async () => {
-    await roleService.deleteRole(role.id);
+    await roleService.deleteRole(role.roleId);
   });
 });

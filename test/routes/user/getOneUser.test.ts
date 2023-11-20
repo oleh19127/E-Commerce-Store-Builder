@@ -16,7 +16,7 @@ test('Get one user route', async (t) => {
     return 'User not found';
   }
   const res = await app.inject({
-    url: `/user/one/${user.id}`,
+    url: `/user/one/${user.userId}`,
     method: 'GET',
   });
   const resPayload = JSON.parse(res.payload);
@@ -27,6 +27,6 @@ test('Get one user route', async (t) => {
     'Get one user operation should return status 200',
   );
   t.after(async () => {
-    await userService.delete(user.id);
+    await userService.delete(user.userId);
   });
 });

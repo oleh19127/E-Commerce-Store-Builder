@@ -6,7 +6,7 @@ export const updateUserSchema = {
     params: {
       type: 'object',
       properties: {
-        id: {
+        userId: {
           type: 'number',
           description: 'user id',
         },
@@ -24,7 +24,7 @@ export const updateUserSchema = {
         description: 'Successful response',
         type: 'object',
         properties: {
-          id: { type: 'number' },
+          userId: { type: 'number' },
           email: { type: 'string' },
           password: { type: 'string' },
           created_at: { type: 'string', format: 'date-time' },

@@ -27,6 +27,6 @@ test('Create user route', async (t) => {
   t.same(user.email, 'createUserRoute@gmail.com');
 
   t.after(async () => {
-    await userService.delete(user.id);
+    await userService.delete(user.userId);
   });
 });

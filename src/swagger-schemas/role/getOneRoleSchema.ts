@@ -5,14 +5,14 @@ export const getOneRoleSchema = {
     params: {
       type: 'object',
       properties: {
-        id: { type: 'number' },
+        roleId: { type: 'number' },
       },
     },
     response: {
       200: {
         type: 'object',
         properties: {
-          id: { type: 'number' },
+          roleId: { type: 'number' },
           roleName: { type: 'string' },
           created_at: { type: 'string', format: 'date-time' },
           updated_at: { type: 'string', format: 'date-time' },

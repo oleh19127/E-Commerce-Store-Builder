@@ -17,7 +17,7 @@ class RoleService {
 
   async getAllUserRoles(userId: number) {
     const user = await this.userRepository.findOne({
-      where: { id: userId },
+      where: { userId },
       relations: ['roles'],
     });
     if (user === null) {
@@ -26,30 +26,30 @@ class RoleService {
     return user.roles;
   }
 
-  async deleteRole(id: number) {
-    const role = await this.roleRepository.findOneBy({ id });
+  async deleteRole(roleId: number) {
+    const role = await this.roleRepository.findOneBy({ roleId });
     if (role === null) {
       return { message: 'Role not found' };
     }
     if (role.roleName === 'USER') {
       return { message: "Role 'USER' cant delete!!!" };
     }
-    const destroyedRole = await this.roleRepository.delete(id);
+    const destroyedRole = await this.roleRepository.delete(roleId);
     if (destroyedRole.affected === 1) {
       return { message: 'Role successfully deleted!!!' };
     }
     return { message: 'There is no such role to delete it!!!' };
   }
-  async getOneRole(id: number) {
-    const role = await this.roleRepository.findOneBy({ id });
+  async getOneRole(roleId: number) {
+    const role = await this.roleRepository.findOneBy({ roleId });
     if (role === null) {
       return { message: 'Role not found' };
     }
     return role;
   }
 
-  async updateRole(roleName: string, id: number) {
-    const role = await this.roleRepository.findOneBy({ id });
+  async updateRole(roleName: string, roleId: number) {
+    const role = await this.roleRepository.findOneBy({ roleId });
     if (role === null) {
       return { message: 'Role not found' };
     }

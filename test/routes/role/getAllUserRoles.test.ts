@@ -16,7 +16,7 @@ test('Get all user roles route', async (t) => {
     return 'User dont found';
   }
   const res = await app.inject({
-    url: `/role/${foundedUser.id}`,
+    url: `/role/${foundedUser.userId}`,
     method: 'GET',
   });
   t.equal(
@@ -25,6 +25,6 @@ test('Get all user roles route', async (t) => {
     'Get all user roles operation should return status 200',
   );
   t.after(async () => {
-    await userService.delete(foundedUser.id);
+    await userService.delete(foundedUser.userId);
   });
 });

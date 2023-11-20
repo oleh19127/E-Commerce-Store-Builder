@@ -23,7 +23,7 @@ class ProductService {
   }
   async getOne(productId: number) {
     const product = await this.productRepository.findOne({
-      where: { id: productId },
+      where: { productId },
       relations: ['colors'],
     });
     if (product === null) {
@@ -39,7 +39,7 @@ class ProductService {
     subtitle: string,
     title: string,
   ) {
-    const product = await this.productRepository.findOneBy({ id: productId });
+    const product = await this.productRepository.findOneBy({ productId });
     if (product === null) {
       return 'Product not found!!!';
     }
@@ -53,7 +53,7 @@ class ProductService {
 
   async delete(productId: number) {
     const destroyedProduct = await this.productRepository.delete({
-      id: productId,
+      productId,
     });
     if (destroyedProduct.affected === 1) {
       return 'Product successfully deleted!!!';

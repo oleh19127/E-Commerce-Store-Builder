@@ -14,8 +14,8 @@ class ColorService {
     return await this.colorRepository.find();
   }
 
-  async updateColor(id: number, colorValue: string) {
-    const color = await this.colorRepository.findOneBy({ id });
+  async updateColor(colorId: number, colorValue: string) {
+    const color = await this.colorRepository.findOneBy({ colorId });
     if (color === null) {
       return 'Color not found!!!';
     }
@@ -24,9 +24,9 @@ class ColorService {
     return color;
   }
 
-  async deleteColor(id: number) {
+  async deleteColor(colorId: number) {
     const destroyedColor = await this.colorRepository.delete({
-      id,
+      colorId,
     });
     if (destroyedColor.affected === 1) {
       return 'Color successfully deleted!!!';

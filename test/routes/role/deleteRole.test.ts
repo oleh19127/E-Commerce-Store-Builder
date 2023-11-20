@@ -7,7 +7,7 @@ test('Delete role route', async (t) => {
   const app = await build(t);
   const role = await roleService.createRole('ARTIST');
   const res = await app.inject({
-    url: `/role/${role.id}`,
+    url: `/role/${role.roleId}`,
     method: 'DELETE',
   });
   t.equal(
