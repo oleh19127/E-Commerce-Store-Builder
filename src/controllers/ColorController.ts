@@ -25,9 +25,9 @@ class ColorController {
 
   async updateColor(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IColor;
+      const { colorId } = request.params as IColor;
       const { colorValue } = request.body as IColor;
-      const result = await colorService.updateColor(id, colorValue);
+      const result = await colorService.updateColor(colorId, colorValue);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -36,8 +36,8 @@ class ColorController {
 
   async deleteColor(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IColor;
-      const result = await colorService.deleteColor(id);
+      const { colorId } = request.params as IColor;
+      const result = await colorService.deleteColor(colorId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);

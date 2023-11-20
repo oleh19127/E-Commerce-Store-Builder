@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { userService } from '../services/userService';
 import { IUser } from '../interfaces/IUser';
 import { statusCodes } from '../static-helpers/status-codes';
+import { IRole } from '../interfaces/IRole';
 
 class UserController {
   async auth(request: FastifyRequest, reply: FastifyReply) {
@@ -27,8 +28,8 @@ class UserController {
 
   async getOne(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IUser;
-      const result = await userService.getOne(id);
+      const { userId } = request.params as IUser;
+      const result = await userService.getOne(userId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -62,8 +63,8 @@ class UserController {
   async update(request: FastifyRequest, reply: FastifyReply) {
     try {
       const { email, password } = request.body as IUser;
-      const { id } = request.params as IUser;
-      const result = await userService.update(email, password, id);
+      const { userId } = request.params as IUser;
+      const result = await userService.update(email, password, userId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -71,18 +72,30 @@ class UserController {
   }
   async delete(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IUser;
-      const result = await userService.delete(id);
+      const { userId } = request.params as IUser;
+      const result = await userService.delete(userId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
     }
   }
 
-  async makeAdmin(request: FastifyRequest, reply: FastifyReply) {
+  async addRole(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IUser;
-      const result = await userService.makeAdmin(id);
+      const { userId } = request.params as IUser;
+      const { roleId } = request.body as IRole;
+      const result = await userService.addRole(userId, roleId);
+      return reply.status(statusCodes.OK_200).send(result);
+    } catch (e) {
+      return reply.send(e);
+    }
+  }
+
+  async deleteRole(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { userId } = request.params as IUser;
+      const { roleName } = request.body as IRole;
+      const result = await userService.deleteRole(userId, roleName);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);

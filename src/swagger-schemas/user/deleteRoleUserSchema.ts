@@ -1,11 +1,17 @@
-export const getOneUserSchema = {
+export const deleteRoleUserSchema = {
   schema: {
-    description: 'Get one user by userId',
+    description: 'Delete role from user',
     tags: ['user'],
     params: {
       type: 'object',
       properties: {
         userId: { type: 'number' },
+      },
+    },
+    body: {
+      type: 'object',
+      properties: {
+        roleName: { type: 'string' },
       },
     },
     response: {

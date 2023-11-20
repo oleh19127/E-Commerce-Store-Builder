@@ -5,7 +5,7 @@ export const deleteRoleSchema = {
     params: {
       type: 'object',
       properties: {
-        id: { type: 'number' },
+        roleId: { type: 'number' },
       },
     },
     response: {

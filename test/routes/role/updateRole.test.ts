@@ -7,7 +7,7 @@ test('Update role route', async (t) => {
   const app = await build(t);
   const role = await roleService.createRole('DEVELOPER');
   const res = await app.inject({
-    url: `/role/${role.id}`,
+    url: `/role/${role.roleId}`,
     method: 'PUT',
     payload: { roleName: 'JUNIOR-DEVELOPER' },
   });
@@ -20,6 +20,6 @@ test('Update role route', async (t) => {
   t.same(resPayload.roleName, 'JUNIOR-DEVELOPER');
 
   t.after(async () => {
-    await roleService.deleteRole(resPayload.id);
+    await roleService.deleteRole(resPayload.roleId);
   });
 });

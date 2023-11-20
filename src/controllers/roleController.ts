@@ -34,8 +34,8 @@ class RoleController {
 
   async deleteRole(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IRole;
-      const result = await roleService.deleteRole(id);
+      const { roleId } = request.params as IRole;
+      const result = await roleService.deleteRole(roleId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -44,8 +44,8 @@ class RoleController {
 
   async getOneRole(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IRole;
-      const result = await roleService.getOneRole(id);
+      const { roleId } = request.params as IRole;
+      const result = await roleService.getOneRole(roleId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
@@ -53,9 +53,9 @@ class RoleController {
   }
   async updateRole(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as IRole;
+      const { roleId } = request.params as IRole;
       const { roleName } = request.body as IRole;
-      const result = await roleService.updateRole(roleName, id);
+      const result = await roleService.updateRole(roleName, roleId);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);
