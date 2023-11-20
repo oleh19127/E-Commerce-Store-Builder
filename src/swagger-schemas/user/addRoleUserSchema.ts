@@ -1,11 +1,17 @@
 export const addRoleUserSchema = {
   schema: {
-    description: 'Make user admin by userId',
+    description: 'Add role for user',
     tags: ['user'],
     params: {
       type: 'object',
       properties: {
         userId: { type: 'number' },
+      },
+    },
+    body: {
+      type: 'object',
+      properties: {
+        roleId: { type: 'number' },
       },
     },
     response: {
