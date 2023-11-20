@@ -6,7 +6,7 @@ import { AppDataSource } from '../../../src/db/data-source';
 import { User } from '../../../src/db/entity/User';
 import { roleService } from '../../../src/services/roleService';
 
-test('Make admin user route', async (t) => {
+test('Add role user route', async (t) => {
   const app = await build(t);
   const userRepository = AppDataSource.getRepository(User);
   await userService.createUser('makeAdminUser@gmail.com', 'pass');
@@ -18,19 +18,20 @@ test('Make admin user route', async (t) => {
     return 'user not found';
   }
   const res = await app.inject({
-    url: `/user/make-admin/${user.id}`,
+    url: `/user/add-role/${user.userId}`,
     method: 'POST',
+    payload: { roleId: `${adminRole.roleId}` },
   });
   t.equal(
     res.statusCode,
     statusCodes.OK_200,
-    'Make admin user operation should return status 200',
+    'Add role user operation should return status 200',
   );
   const resPayload = JSON.parse(res.payload);
   t.same(resPayload.email, 'makeAdminUser@gmail.com');
 
   t.after(async () => {
-    await userService.delete(user.id);
-    await roleService.deleteRole(adminRole.id);
+    await userService.delete(user.userId);
+    await roleService.deleteRole(adminRole.roleId);
   });
 });

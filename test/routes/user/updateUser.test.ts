@@ -16,7 +16,7 @@ test('Update user route', async (t) => {
     return 'user not found';
   }
   const res = await app.inject({
-    url: `/user/${user.id}`,
+    url: `/user/${user.userId}`,
     method: 'PUT',
     payload: { email: 'updatedUser@gmail.com' },
   });
@@ -29,6 +29,6 @@ test('Update user route', async (t) => {
   t.same(resPayload.email, 'updatedUser@gmail.com');
 
   t.after(async () => {
-    await userService.delete(user.id);
+    await userService.delete(user.userId);
   });
 });

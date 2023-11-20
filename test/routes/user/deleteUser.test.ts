@@ -16,7 +16,7 @@ test('Delete user route', async (t) => {
     return 'User not found';
   }
   const res = await app.inject({
-    url: `/user/${user.id}`,
+    url: `/user/${user.userId}`,
     method: 'DELETE',
   });
   t.equal(

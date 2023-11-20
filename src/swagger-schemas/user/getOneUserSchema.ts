@@ -1,18 +1,18 @@
 export const getOneUserSchema = {
   schema: {
-    description: 'Get one user by id',
+    description: 'Get one user by userId',
     tags: ['user'],
     params: {
       type: 'object',
       properties: {
-        id: { type: 'number' },
+        userId: { type: 'number' },
       },
     },
     response: {
       200: {
         type: 'object',
         properties: {
-          id: { type: 'number' },
+          userId: { type: 'number' },
           email: { type: 'string' },
           password: { type: 'string' },
           created_at: { type: 'string', format: 'date-time' },
@@ -22,7 +22,7 @@ export const getOneUserSchema = {
             items: {
               type: 'object',
               properties: {
-                id: { type: 'number' },
+                userId: { type: 'number' },
                 roleName: { type: 'string' },
                 created_at: { type: 'string', format: 'date-time' },
                 updated_at: { type: 'string', format: 'date-time' },

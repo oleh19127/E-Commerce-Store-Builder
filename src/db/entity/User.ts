@@ -15,7 +15,7 @@ import { Cart } from './Cart';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  userId: number;
 
   @Column({ unique: true })
   email: string;

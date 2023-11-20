@@ -1,18 +1,18 @@
-export const makeAdminUserSchema = {
+export const addRoleUserSchema = {
   schema: {
-    description: 'Make user admin by id',
+    description: 'Make user admin by userId',
     tags: ['user'],
     params: {
       type: 'object',
       properties: {
-        id: { type: 'number' },
+        userId: { type: 'number' },
       },
     },
     response: {
       200: {
         type: 'object',
         properties: {
-          id: { type: 'number' },
+          userId: { type: 'number' },
           email: { type: 'string' },
           password: { type: 'string' },
           created_at: { type: 'string', format: 'date-time' },
@@ -22,7 +22,7 @@ export const makeAdminUserSchema = {
             items: {
               type: 'object',
               properties: {
-                id: { type: 'number' },
+                userId: { type: 'number' },
                 roleName: { type: 'string' },
                 created_at: { type: 'string', format: 'date-time' },
                 updated_at: { type: 'string', format: 'date-time' },

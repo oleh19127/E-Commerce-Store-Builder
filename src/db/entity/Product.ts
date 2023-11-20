@@ -12,7 +12,7 @@ import { Color } from './Color';
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
-  id: number;
+  productId: number;
 
   @Column()
   title: string;

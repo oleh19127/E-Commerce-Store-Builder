@@ -7,7 +7,7 @@ test('Update color route', async (t) => {
   const app = await build(t);
   const color = await colorService.createColor('update color route');
   const res = await app.inject({
-    url: `/color/${color.id}`,
+    url: `/color/${color.colorId}`,
     method: 'PUT',
     payload: { colorValue: 'updated color' },
   });
@@ -20,6 +20,6 @@ test('Update color route', async (t) => {
   t.same(resPayload.colorValue, 'updated color');
 
   t.after(async () => {
-    await colorService.deleteColor(resPayload.id);
+    await colorService.deleteColor(resPayload.colorId);
   });
 });

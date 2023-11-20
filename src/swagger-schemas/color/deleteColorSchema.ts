@@ -5,7 +5,7 @@ export const deleteColorSchema = {
     params: {
       type: 'object',
       properties: {
-        id: { type: 'number' },
+        colorId: { type: 'number' },
       },
     },
     response: {

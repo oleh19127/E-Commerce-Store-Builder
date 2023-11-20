@@ -11,7 +11,7 @@ import { Product } from './Product';
 @Entity()
 export class Color {
   @PrimaryGeneratedColumn()
-  id: number;
+  colorId: number;
 
   @Column({ unique: true })
   colorValue: string;

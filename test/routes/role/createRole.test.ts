@@ -19,6 +19,6 @@ test('Create role route', async (t) => {
   t.same(resPayload.roleName, 'DESIGNER');
 
   t.after(async () => {
-    await roleService.deleteRole(resPayload.id);
+    await roleService.deleteRole(resPayload.roleId);
   });
 });

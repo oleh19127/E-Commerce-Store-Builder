@@ -24,9 +24,9 @@ class UserService {
     return await this.userRepository.find({ relations: ['roles'] });
   }
 
-  async getOne(id: number) {
+  async getOne(userId: number) {
     const user = await this.userRepository.findOne({
-      where: { id },
+      where: { userId },
       relations: ['roles'],
     });
     if (user === null) {
@@ -42,7 +42,7 @@ class UserService {
     user.email = email;
     await this.userRepository.save(user);
     const createdUser = await this.userRepository.findOne({
-      where: { id: user.id },
+      where: { userId: user.userId },
       relations: ['roles'],
     });
     if (createdUser === null) {
@@ -57,7 +57,7 @@ class UserService {
     createdUser.roles.push(defaultRole);
     await this.userRepository.save(createdUser);
     return await this.generateAccessToken(
-      user.id,
+      user.userId,
       user.email,
       user.roles,
       user.password,
@@ -77,15 +77,15 @@ class UserService {
       return { message: 'Password wrong' };
     }
     return await this.generateAccessToken(
-      candidate.id,
+      candidate.userId,
       candidate.email,
       candidate.roles,
       candidate.password,
     );
   }
 
-  async update(email: string, password: string, id: number) {
-    const foundedUser = await this.userRepository.findOneBy({ id });
+  async update(email: string, password: string, userId: number) {
+    const foundedUser = await this.userRepository.findOneBy({ userId });
     if (foundedUser === null) {
       return 'User not found';
     }
@@ -95,8 +95,8 @@ class UserService {
     return foundedUser;
   }
 
-  async delete(id: number) {
-    const destroyedUser = await this.userRepository.delete(id);
+  async delete(userId: number) {
+    const destroyedUser = await this.userRepository.delete(userId);
     if (destroyedUser.affected === 1) {
       return { message: 'User successfully deleted!!!' };
     }
@@ -112,21 +112,19 @@ class UserService {
     return verify(token, 'some secret key');
   }
 
-  async makeAdmin(id: number) {
+  async addRole(userId: number, roleId: number) {
     const user = await this.userRepository.findOne({
-      where: { id },
+      where: { userId },
       relations: ['roles'],
     });
     if (user === null) {
       return { message: 'User not found' };
     }
-    const adminRole = await this.roleRepository.findOneBy({
-      roleName: 'ADMIN',
-    });
-    if (adminRole === null) {
+    const foundRole = await this.roleRepository.findOneBy({ roleId });
+    if (foundRole === null) {
       return { message: 'Role not found' };
     }
-    user.roles.push(adminRole);
+    user.roles.push(foundRole);
     await this.userRepository.save(user);
     return user;
   }

@@ -8,7 +8,7 @@ export const getAllColorsSchema = {
         items: {
           type: 'object',
           properties: {
-            id: { type: 'number' },
+            colorId: { type: 'number' },
             colorValue: { type: 'string' },
             created_at: { type: 'string', format: 'date-time' },
             updated_at: { type: 'string', format: 'date-time' },

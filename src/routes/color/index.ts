@@ -11,8 +11,8 @@ const productColor: FastifyPluginAsync = async (
 ): Promise<void> => {
   fastify.post('/', createColorSchema, colorController.createColor);
   fastify.get('/', getAllColorsSchema, colorController.getAllColors);
-  fastify.put('/:id', updateColorSchema, colorController.updateColor);
-  fastify.delete('/:id', deleteColorSchema, colorController.deleteColor);
+  fastify.put('/:colorId', updateColorSchema, colorController.updateColor);
+  fastify.delete('/:colorId', deleteColorSchema, colorController.deleteColor);
 };
 
 export default productColor;
