@@ -22,6 +22,6 @@ export class Color {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToMany(() => Color, (color) => color.products)
+  @ManyToMany(() => Product, (product) => product.colors)
   products: Product[];
 }
