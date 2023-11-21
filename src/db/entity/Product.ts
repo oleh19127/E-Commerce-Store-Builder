@@ -32,7 +32,7 @@ export class Product {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToMany(() => Product, (product) => product.colors, {
+  @ManyToMany(() => Color, (color) => color.products, {
     onDelete: 'CASCADE',
   })
   @JoinTable()
