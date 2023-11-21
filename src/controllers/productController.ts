@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { IProduct } from '../interfaces/IProduct';
 import { productService } from '../services/productService';
 import { statusCodes } from '../static-helpers/status-codes';
+import { IColor } from '../interfaces/IColor';
 
 class ProductController {
   async createProduct(request: FastifyRequest, reply: FastifyReply) {
@@ -58,6 +59,27 @@ class ProductController {
     try {
       const { productId } = request.params as IProduct;
       const result = await productService.delete(productId);
+      return reply.status(statusCodes.OK_200).send(result);
+    } catch (e) {
+      return reply.send(e);
+    }
+  }
+
+  async addColor(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { productId } = request.params as IProduct;
+      const { colorId } = request.body as IColor;
+      const result = await productService.addColor(productId, colorId);
+      return reply.status(statusCodes.OK_200).send(result);
+    } catch (e) {
+      return reply.send(e);
+    }
+  }
+  async deleteColor(request: FastifyRequest, reply: FastifyReply) {
+    try {
+      const { productId } = request.params as IProduct;
+      const { colorValue } = request.body as IColor;
+      const result = await productService.deleteColor(productId, colorValue);
       return reply.status(statusCodes.OK_200).send(result);
     } catch (e) {
       return reply.send(e);

@@ -1,8 +1,10 @@
 import { AppDataSource } from '../db/data-source';
 import { Product } from '../db/entity/Product';
+import { Color } from '../db/entity/Color';
 
 class ProductService {
   private productRepository = AppDataSource.getRepository(Product);
+  private colorRepository = AppDataSource.getRepository(Color);
   async createProduct(
     sku: number,
     price: number,
@@ -61,6 +63,39 @@ class ProductService {
     if (destroyedProduct.affected === 0) {
       return 'There is no such product to delete it!!!';
     }
+  }
+
+  async addColor(productId: number, colorId: number) {
+    const product = await this.productRepository.findOne({
+      where: { productId },
+      relations: ['colors'],
+    });
+    if (product === null) {
+      return { message: 'Product not found' };
+    }
+    const color = await this.colorRepository.findOneBy({ colorId });
+    if (color === null) {
+      return { message: 'Color not found' };
+    }
+    product.colors.push(color);
+    await this.productRepository.save(product);
+    return product;
+  }
+
+  async deleteColor(productId: number, colorValue: string) {
+    const product = await this.productRepository.findOne({
+      where: { productId },
+      relations: ['colors'],
+    });
+    if (product === null) {
+      return { message: 'Product not found' };
+    }
+
+    product.colors = product.colors.filter((color) => {
+      return color.colorValue !== colorValue;
+    });
+    await this.productRepository.save(product);
+    return product;
   }
 }
 
