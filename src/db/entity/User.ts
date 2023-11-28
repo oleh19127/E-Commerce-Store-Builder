@@ -35,7 +35,7 @@ export class User {
   @JoinTable()
   roles: Role[];
 
-  @OneToOne(() => User, (user) => user.cart, {
+  @OneToOne(() => Cart, (cart) => cart.user, {
     onDelete: 'CASCADE',
   })
   @JoinColumn()

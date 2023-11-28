@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Color } from './Color';
+import { Cart } from './Cart';
 
 @Entity()
 export class Product {
@@ -37,4 +38,9 @@ export class Product {
   })
   @JoinTable()
   colors: Color[];
+
+  @ManyToMany(() => Cart, (cart) => cart.products, {
+    onDelete: 'CASCADE',
+  })
+  carts: Cart[];
 }
