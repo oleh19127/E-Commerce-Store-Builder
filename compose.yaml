@@ -6,6 +6,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      ## npm run start
+      target: prod
+      # npm run dev
+      # target: dev
+      ## npm run test
+      # target: test
     ports:
       - 3000:3000
     volumes:
