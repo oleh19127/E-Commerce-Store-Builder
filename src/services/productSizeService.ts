@@ -4,10 +4,11 @@ import { ProductSize } from '../db/entity/ProductSize';
 class ProductSizeService {
   private productSizeRepository = AppDataSource.getRepository(ProductSize);
   async createSize(productId: number, sizeName: string) {
-    const size = new ProductSize();
-    size.sizeName = sizeName;
-    size.productId = productId;
-    await this.productSizeRepository.save(size);
+    const size = this.productSizeRepository.create({
+      productId,
+      sizeName,
+    });
+    await this.productSizeRepository.insert(size);
     return size;
   }
 
@@ -20,8 +21,14 @@ class ProductSizeService {
     if (size === null) {
       return 'Size not found';
     }
-    size.sizeName = sizeName;
-    await this.productSizeRepository.save(size);
+    await this.productSizeRepository.update(
+      {
+        sizeName: size.sizeName,
+      },
+      {
+        sizeName,
+      },
+    );
     return size;
   }
 

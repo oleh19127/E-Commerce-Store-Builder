@@ -9,9 +9,10 @@ class RoleService {
     return await this.roleRepository.find();
   }
   async createRole(roleName: string) {
-    const role = new Role();
-    role.roleName = roleName;
-    await this.roleRepository.save(role);
+    const role = await this.roleRepository.create({
+      roleName,
+    });
+    await this.roleRepository.insert(role);
     return role;
   }
 
@@ -57,8 +58,14 @@ class RoleService {
       return { message: "Role 'USER' cant update!!!" };
     }
     if (role && roleName) {
-      role.roleName = roleName;
-      await this.roleRepository.save(role);
+      await this.roleRepository.update(
+        {
+          roleName: role.roleName,
+        },
+        {
+          roleName,
+        },
+      );
     }
     return role;
   }

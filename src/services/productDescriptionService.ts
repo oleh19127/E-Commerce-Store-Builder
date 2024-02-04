@@ -5,10 +5,11 @@ class ProductDescriptionService {
   private productDescriptionRepository =
     AppDataSource.getRepository(ProductDescription);
   async createProductDescription(productId: number, text: string) {
-    const productDescription = new ProductDescription();
-    productDescription.productId = productId;
-    productDescription.text = text;
-    await this.productDescriptionRepository.save(productDescription);
+    const productDescription = this.productDescriptionRepository.create({
+      productId,
+      text,
+    });
+    await this.productDescriptionRepository.insert(productDescription);
     return productDescription;
   }
 
@@ -24,8 +25,14 @@ class ProductDescriptionService {
     if (productDescription === null) {
       return 'Product description not found';
     }
-    productDescription.text = text;
-    await this.productDescriptionRepository.save(productDescription);
+    await this.productDescriptionRepository.update(
+      {
+        text: productDescription.text,
+      },
+      {
+        text,
+      },
+    );
     return productDescription;
   }
 

@@ -11,12 +11,13 @@ class ProductService {
     subtitle: string,
     title: string,
   ) {
-    const product = new Product();
-    product.sku = sku;
-    product.price = price;
-    product.subtitle = subtitle;
-    product.title = title;
-    await this.productRepository.save(product);
+    const product = this.productRepository.create({
+      sku,
+      price,
+      subtitle,
+      title,
+    });
+    await this.productRepository.insert(product);
     return product;
   }
 
@@ -45,11 +46,20 @@ class ProductService {
     if (product === null) {
       return 'Product not found!!!';
     }
-    product.sku = sku;
-    product.price = price;
-    product.subtitle = subtitle;
-    product.title = title;
-    await this.productRepository.save(product);
+    await this.productRepository.update(
+      {
+        sku: product.sku,
+        price: product.price,
+        subtitle: product.subtitle,
+        title: product.title,
+      },
+      {
+        sku,
+        price,
+        subtitle,
+        title,
+      },
+    );
     return product;
   }
 

@@ -37,10 +37,11 @@ class UserService {
 
   async createUser(email: string, password: string) {
     const hashPassword = hash(password, 1);
-    const user = new User();
-    user.password = await hashPassword;
-    user.email = email;
-    await this.userRepository.save(user);
+    const user = this.userRepository.create({
+      password: await hashPassword,
+      email,
+    });
+    await this.userRepository.insert(user);
     const createdUser = await this.userRepository.findOne({
       where: { userId: user.userId },
       relations: ['roles'],
@@ -55,7 +56,7 @@ class UserService {
       return 'Role not found';
     }
     createdUser.roles.push(defaultRole);
-    await this.userRepository.save(createdUser);
+    // await this.userRepository.save(createdUser);
     return await this.generateAccessToken(
       user.userId,
       user.email,
@@ -89,9 +90,16 @@ class UserService {
     if (foundedUser === null) {
       return 'User not found';
     }
-    foundedUser.email = email;
-    foundedUser.password = password;
-    await this.userRepository.save(foundedUser);
+    await this.userRepository.update(
+      {
+        email: foundedUser.email,
+        password: foundedUser.password,
+      },
+      {
+        email,
+        password,
+      },
+    );
     return foundedUser;
   }
 

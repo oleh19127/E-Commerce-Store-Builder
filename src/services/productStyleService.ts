@@ -4,10 +4,11 @@ import { ProductStyle } from '../db/entity/ProductStyle';
 class ProductStyleService {
   private productStyleRepository = AppDataSource.getRepository(ProductStyle);
   async createProductStyle(productId: number, styleName: string) {
-    const productStyle = new ProductStyle();
-    productStyle.productId = productId;
-    productStyle.styleName = styleName;
-    await this.productStyleRepository.save(productStyle);
+    const productStyle = this.productStyleRepository.create({
+      productId,
+      styleName,
+    });
+    await this.productStyleRepository.insert(productStyle);
     return productStyle;
   }
   async getAllProductStyle(productId: number) {
@@ -18,8 +19,14 @@ class ProductStyleService {
     if (productStyle === null) {
       return 'Product style not found';
     }
-    productStyle.styleName = styleName;
-    await this.productStyleRepository.save(productStyle);
+    await this.productStyleRepository.update(
+      {
+        styleName: productStyle.styleName,
+      },
+      {
+        styleName,
+      },
+    );
     return productStyle;
   }
   async deleteProductStyle(id: number) {

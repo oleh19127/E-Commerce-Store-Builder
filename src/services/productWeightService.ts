@@ -4,11 +4,12 @@ import { ProductWeight } from '../db/entity/ProductWeight';
 class ProductWeightService {
   private productWeightRepository = AppDataSource.getRepository(ProductWeight);
   async createWeight(productId: number, kg: number, lb: number) {
-    const productWeight = new ProductWeight();
-    productWeight.productId = productId;
-    productWeight.kg = kg;
-    productWeight.lb = lb;
-    await this.productWeightRepository.save(productWeight);
+    const productWeight = this.productWeightRepository.create({
+      productId,
+      kg,
+      lb,
+    });
+    await this.productWeightRepository.insert(productWeight);
     return productWeight;
   }
 
@@ -21,9 +22,16 @@ class ProductWeightService {
     if (productWeight === null) {
       return 'Weight not found';
     }
-    productWeight.kg = kg;
-    productWeight.lb = lb;
-    await this.productWeightRepository.save(productWeight);
+    await this.productWeightRepository.update(
+      {
+        kg: productWeight.kg,
+        lb: productWeight.lb,
+      },
+      {
+        kg,
+        lb,
+      },
+    );
     return productWeight;
   }
 

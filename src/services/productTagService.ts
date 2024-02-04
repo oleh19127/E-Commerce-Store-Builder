@@ -5,10 +5,11 @@ class ProductTagService {
   private productTagRepository = AppDataSource.getRepository(ProductTag);
 
   async createProductTag(productId: number, tagName: string) {
-    const tag = new ProductTag();
-    tag.productId = productId;
-    tag.tagName = tagName;
-    await this.productTagRepository.save(tag);
+    const tag = this.productTagRepository.create({
+      productId,
+      tagName,
+    });
+    await this.productTagRepository.insert(tag);
     return tag;
   }
 
@@ -20,8 +21,14 @@ class ProductTagService {
     if (tag === null) {
       return 'Tag not found';
     }
-    tag.tagName = tagName;
-    await this.productTagRepository.save(tag);
+    await this.productTagRepository.update(
+      {
+        tagName: tag.tagName,
+      },
+      {
+        tagName,
+      },
+    );
     return tag;
   }
   async deleteProductTag(id: number) {

@@ -4,9 +4,14 @@ import { Color } from '../db/entity/Color';
 class ColorService {
   private colorRepository = AppDataSource.getRepository(Color);
   async createColor(colorValue: string) {
-    const color = new Color();
-    color.colorValue = colorValue;
-    await this.colorRepository.save(color);
+    const colorCandidate = await this.colorRepository.existsBy({ colorValue });
+    if (colorCandidate) {
+      return `Color "${colorValue}" already exist`;
+    }
+    const color = this.colorRepository.create({
+      colorValue,
+    });
+    await this.colorRepository.insert(color);
     return color;
   }
 
@@ -19,8 +24,14 @@ class ColorService {
     if (color === null) {
       return 'Color not found!!!';
     }
-    color.colorValue = colorValue;
-    await this.colorRepository.save(color);
+    await this.colorRepository.update(
+      {
+        colorValue: color.colorValue,
+      },
+      {
+        colorValue,
+      },
+    );
     return color;
   }
 
