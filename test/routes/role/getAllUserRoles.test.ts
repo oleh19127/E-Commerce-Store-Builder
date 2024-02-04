@@ -13,7 +13,7 @@ test('Get all user roles route', async (t) => {
     email: 'getAllUserRoles@gmail.com',
   });
   if (foundedUser === null) {
-    return 'User dont found';
+    return 'User do not found';
   }
   const res = await app.inject({
     url: `/role/${foundedUser.userId}`,

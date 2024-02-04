@@ -5,17 +5,15 @@ import { Product } from './entity/Product';
 import { Color } from './entity/Color';
 import { Cart } from './entity/Cart';
 
-const port = process.env.DATA_BASE_PORT
-  ? parseInt(process.env.DATA_BASE_PORT)
-  : undefined;
+const port = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : undefined;
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
   port: port, // for local and external
-  host: process.env.DATA_BASE_HOST, // for local only
-  username: process.env.DATA_BASE_USER_NAME, // for local only
-  password: process.env.DATA_BASE_PASSWORD, // for local only
-  database: process.env.DATA_BASE_NAME, // for local only
+  host: process.env.DB_HOST, // for local only
+  username: process.env.POSTGRES_USER, // for local only
+  password: process.env.POSTGRES_PASSWORD, // for local only
+  database: process.env.POSTGRES_DB, // for local only
   // ssl: true, // external only
   // url: process.env.DATA_BASE_URL, // external only
   synchronize: true,

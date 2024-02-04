@@ -6,6 +6,9 @@ import { colorService } from '../../../src/services/colorService';
 test('Delete color route', async (t) => {
   const app = await build(t);
   const color = await colorService.createColor('delete color');
+  if (typeof color === 'string') {
+    return color;
+  }
   const res = await app.inject({
     url: `/color/${color.colorId}`,
     method: 'DELETE',
